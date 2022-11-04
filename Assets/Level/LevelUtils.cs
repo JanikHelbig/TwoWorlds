@@ -1,11 +1,11 @@
 using UnityEngine;
-using System.Linq;
+using System.IO;
 
 public static class LevelUtils
 {
-    public static Level LoadLevelDataFromFile(string path)
+    public static Level LoadLevelDataFromFile(string fileName)
     {
-        TextAsset file =  Resources.Load<TextAsset>(path);
+        TextAsset file =  Resources.Load<TextAsset>(Path.Combine("Levels",fileName));
         string[] lines = file.text.Split("\r\n");
         int width = 0;
         foreach(string line in lines)
@@ -40,7 +40,7 @@ public static class LevelUtils
                         type = Tile.Type.Dark;
                         lvl.spawnDark = new Vector2Int(x, y);
                         break;
-                    case ',':
+                    case '.':
                         type = Tile.Type.Light;
                         break;
                     case 'i':
