@@ -24,15 +24,19 @@ public class LevelManager : MonoBehaviour
             {
                 GameObject prefab = null;
                 Transform container = this.transform;
-                if (level.tiles[x,y].type == Tile.Type.Dark)
+                if(level.tiles[x,y].type == Tile.Type.Block)
                 {
-                    prefab = darkBoxPrefab;
-                    container = darkContainer;
-                }
-                else if(level.tiles[x,y].type == Tile.Type.Light)
-                {
-                    prefab = lightBoxPrefab;
-                    container = lightContainer;
+                    switch(level.tiles[x,y].world)
+                    {
+                        case World.Dark:
+                            prefab = darkBoxPrefab;
+                            container = darkContainer;
+                            break;
+                        case World.Light:
+                            prefab = lightBoxPrefab;
+                            container = lightContainer;
+                            break;
+                    }
                 }
 
                 if(prefab)

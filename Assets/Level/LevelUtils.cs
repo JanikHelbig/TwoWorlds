@@ -25,7 +25,8 @@ public static class LevelUtils
             {
                 lvl.tiles[x, y] = new Tile();
                 Tile.Type type = Tile.Type.Empty;
-                if(x >= line.Length)
+                World world = World.Dark;
+                if (x >= line.Length)
                 {
                     lvl.tiles[x, y].type = Tile.Type.Empty;
                     continue;
@@ -34,21 +35,26 @@ public static class LevelUtils
                 switch (line[x])
                 {
                     case '#':
-                        type = Tile.Type.Dark;
+                        type = Tile.Type.Block;
+                        world = World.Dark;
                         break;
                     case 'X':
-                        type = Tile.Type.Dark;
+                        type = Tile.Type.Block;
+                        world = World.Dark;
                         lvl.spawnDark = new Vector2Int(x, y);
                         break;
                     case '.':
-                        type = Tile.Type.Light;
+                        type = Tile.Type.Block;
+                        world = World.Light;
                         break;
                     case 'i':
-                        type = Tile.Type.Light;
+                        type = Tile.Type.Block;
+                        world = World.Light;
                         lvl.spawnLight = new Vector2Int(x, y);
                         break;
                 }
                 lvl.tiles[x, y].type = type;
+                lvl.tiles[x, y].world = world;
             }
         }
 
