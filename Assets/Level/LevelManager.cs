@@ -110,8 +110,8 @@ public class LevelManager : MonoBehaviour
         }
         if(p2)
         {
-            p1.transform.SetParent(darkContainer);
-            p1.transform.localPosition = new Vector3(level.spawnDark.x, 0, level.spawnDark.y);
+            p2.transform.SetParent(darkContainer);
+            p2.transform.localPosition = new Vector3(level.spawnDark.x, 0, level.spawnDark.y);
         }
 
         level.OnRaisedWorldChanged += OnRaisedWorldChanged;

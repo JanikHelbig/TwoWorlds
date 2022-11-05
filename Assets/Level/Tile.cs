@@ -7,7 +7,7 @@ public struct Tile
     public Type type;
 
     /// <summary>
-    /// Returns true if a character can wolk on that tile
+    /// Returns true if a character can walk on that tile
     /// </summary>
     /// <returns></returns>
     public bool IsWalkable()
