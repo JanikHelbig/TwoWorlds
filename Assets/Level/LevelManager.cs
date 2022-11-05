@@ -40,7 +40,7 @@ public class LevelManager : MonoBehaviour
 
                 for (int y = 0; y < instances.GetLength(1); y++)
                 {
-                    if(instances[x,y] != null) 
+                    if (instances[x, y] != null)
                     {
                         Destroy(instances[x, y]);
                     }
@@ -56,7 +56,7 @@ public class LevelManager : MonoBehaviour
         ClearLevel();
 
         level = LevelUtils.LoadLevelDataFromFile(fileName);
-        instances = new GameObject[level.Width,level.Height];
+        instances = new GameObject[level.Width, level.Height];
         for(int x = -1; x <= level.Width; x++)
         {
             for(int y=-1; y <= level.Height; y++)
@@ -101,7 +101,7 @@ public class LevelManager : MonoBehaviour
                 {
                     var go = Instantiate(prefab, container);
                     go.transform.localPosition = new Vector3(x, 0, y);
-                    if(x>0 && y>0 && x<level.Width && y<level.Height)
+                    if(x >= 0 && y >= 0 && x < level.Width && y < level.Height)
                         instances[x, y] = go;
                 }
             }
@@ -130,11 +130,11 @@ public class LevelManager : MonoBehaviour
 
     public void PlayFadeInLevel()
     {
+        DOTween.KillAll(true);
         float offset = 3;
         float d = 0.1f;
         float t = 0.5f;
 
-        DOTween.KillAll();
         Sequence s = DOTween.Sequence();
         for(int x = 0; x < level.Width; x++)
         for(int y = 0; y < level.Height; y++)
