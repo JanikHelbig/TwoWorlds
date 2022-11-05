@@ -607,11 +607,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7174334293427403729, guid: e2cfc6d6c5144c3429e66099abc14053,
         type: 3}
-      propertyPath: moveSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7174334293427403729, guid: e2cfc6d6c5144c3429e66099abc14053,
-        type: 3}
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 1932771878}
@@ -620,16 +615,6 @@ PrefabInstance:
       propertyPath: levelManager
       value: 
       objectReference: {fileID: 667609694}
-    - target: {fileID: 7174334293427403729, guid: e2cfc6d6c5144c3429e66099abc14053,
-        type: 3}
-      propertyPath: collisionWorld
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7174334293427403729, guid: e2cfc6d6c5144c3429e66099abc14053,
-        type: 3}
-      propertyPath: pushTriggerThreshold
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 7174334293427403730, guid: e2cfc6d6c5144c3429e66099abc14053,
         type: 3}
       propertyPath: m_RootOrder
@@ -756,11 +741,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7474528066998189534, guid: c8c35233bcc3d6145a726903f762c172,
         type: 3}
-      propertyPath: moveSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7474528066998189534, guid: c8c35233bcc3d6145a726903f762c172,
-        type: 3}
       propertyPath: inputManager
       value: 
       objectReference: {fileID: 1932771878}
@@ -769,16 +749,6 @@ PrefabInstance:
       propertyPath: levelManager
       value: 
       objectReference: {fileID: 667609694}
-    - target: {fileID: 7474528066998189534, guid: c8c35233bcc3d6145a726903f762c172,
-        type: 3}
-      propertyPath: collisionWorld
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7474528066998189534, guid: c8c35233bcc3d6145a726903f762c172,
-        type: 3}
-      propertyPath: pushTriggerThreshold
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 7474528066998189535, guid: c8c35233bcc3d6145a726903f762c172,
         type: 3}
       propertyPath: m_Name

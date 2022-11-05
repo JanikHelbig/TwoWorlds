@@ -28,6 +28,9 @@ namespace Character
 
         private void Update()
         {
+            if (levelManager.blockInput)
+                return;
+
             _moveDelay -= Time.deltaTime;
             if (_moveDelay > 0)
                 return;
@@ -42,18 +45,22 @@ namespace Character
             var d = DirectionUtility.From(moveInput);
             int2 nextPos = currentPos.OffsetPosition(d);
 
+            if (levelManager.IsOccuipiedByOtherPlayer(this.gameObject, nextPos))
+                return;
 
             Tile t = levelManager.level[nextPos.x, nextPos.y];
             if(t.IsWalkable() && t.world == this.world)
             {
-                Vector3 target = _tf.position.With(x: nextPos.x, z: nextPos.y);
+                //TODO move animatin
+                Vector3 target = _tf.localPosition.With(x: nextPos.x, z: nextPos.y);
                 this.transform.DOLocalMove(target, 0.5f).Play();
                 _moveDelay = 0.5f;
             }
             if(t.IsPushable() && t.world != this.world && levelManager.level.CanMoveTile(nextPos, d))
             {
+                //TODO push move animatin
                 levelManager.level.TryMoveTile(nextPos, d);
-                Vector3 target = _tf.position.With(x: nextPos.x, z: nextPos.y);
+                Vector3 target = _tf.localPosition.With(x: nextPos.x, z: nextPos.y);
                 this.transform.DOLocalMove(target, 0.5f).Play();
                 _moveDelay = 0.5f;
             }

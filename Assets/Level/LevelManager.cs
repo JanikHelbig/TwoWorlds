@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using Unity.Mathematics;
+using System.Collections;
 
 public class LevelManager : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class LevelManager : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private Transform minPosition;
     [SerializeField] private Transform maxPosition;
+
+    public bool blockInput = false;
 
     private int currentLevel = 1;
 
@@ -51,10 +54,18 @@ public class LevelManager : MonoBehaviour
             Destroy(child.gameObject);
     }
 
+    public bool IsOccuipiedByOtherPlayer(GameObject player, int2 targetPosition)
+    {
+        GameObject p = p1 == player ? p2 : p1;
+        float3 pos = p.transform.position;
+        int2 otherPlayerPos = (int2)math.round(pos.xz);
+        return math.all(targetPosition == otherPlayerPos);
+    }
+
     public void LoadLevel(string fileName)
     {
         ClearLevel();
-
+        blockInput = true;
         level = LevelUtils.LoadLevelDataFromFile(fileName);
         instances = new GameObject[level.Width, level.Height];
         for(int x = -1; x <= level.Width; x++)
@@ -130,6 +141,7 @@ public class LevelManager : MonoBehaviour
 
     public void PlayFadeInLevel()
     {
+        blockInput = true;
         DOTween.KillAll(true);
         float offset = 3;
         float d = 0.1f;
@@ -160,6 +172,10 @@ public class LevelManager : MonoBehaviour
             
             s.Join(a);
         }
+        s.OnComplete(() =>
+        {
+            blockInput = false;
+        });
         s.Play();
     }
 
@@ -170,6 +186,9 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
+        if (blockInput)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Space))
             level?.ToggleRaisedWorld();
 
@@ -233,14 +252,21 @@ public class LevelManager : MonoBehaviour
             return;
 
         float R = 0.5f;
-        if(Mathf.Abs(p1.transform.position.x - level.goalLight.x) < R &&
-            Mathf.Abs(p1.transform.position.z - level.goalLight.y) < R && 
+        if (Mathf.Abs(p1.transform.position.x - level.goalLight.x) < R &&
+            Mathf.Abs(p1.transform.position.z - level.goalLight.y) < R &&
             Mathf.Abs(p2.transform.position.x - level.goalDark.x) < R &&
             Mathf.Abs(p2.transform.position.z - level.goalDark.y) < R)
         {
-            currentLevel++;
-            RestartLevel();
+            blockInput = true;
+            StartCoroutine(DelayedStartNextLevel(0.7f));
         }
+    }
+
+    private IEnumerator DelayedStartNextLevel(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        currentLevel++;
+        RestartLevel();
     }
 
     void OnRaisedWorldChanged(World raisedWorld)
