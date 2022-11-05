@@ -9,6 +9,11 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Transform lightContainer;
     [SerializeField] private Transform darkContainer;
 
+    [Header("Player")]
+    [SerializeField] private GameObject p1;
+    [SerializeField] private GameObject p2;
+
+    [Header("Camera")]
     [SerializeField] private Transform minPosition;
     [SerializeField] private Transform maxPosition;
 
@@ -79,6 +84,16 @@ public class LevelManager : MonoBehaviour
 
         lightContainer.transform.position = Vector3.zero;
         darkContainer.transform.position = Vector3.zero + Vector3.up;
+        if(p1)
+        {
+            p1.transform.SetParent(lightContainer);
+            p1.transform.localPosition = new Vector3(level.spawnLight.x, 0, level.spawnLight.y);
+        }
+        if(p2)
+        {
+            p1.transform.SetParent(darkContainer);
+            p1.transform.localPosition = new Vector3(level.spawnDark.x, 0, level.spawnDark.y);
+        }
 
         level.OnRaisedWorldChanged += OnRaisedWorldChanged;
         level.OnTileSwitched += OnTilesSwitched;
