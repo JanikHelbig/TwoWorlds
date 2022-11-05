@@ -26,6 +26,11 @@ namespace Character
         {
             _tf = transform;
             _animator = GetComponentInChildren<Animator>();
+            levelManager.OnLevelCompleted += () =>
+            {
+                this.transform.rotation = Quaternion.Euler(0, 180, 0);
+                _animator.SetTrigger("Victory");
+            };
         }
 
 

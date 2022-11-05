@@ -22,7 +22,9 @@ public class LevelManager : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private Transform minPosition;
     [SerializeField] private Transform maxPosition;
-    public event Action OnLevelLoaded; 
+
+    public event Action OnLevelLoaded;
+    public event Action OnLevelCompleted;
 
     public bool blockInput = false;
 
@@ -55,6 +57,8 @@ public class LevelManager : MonoBehaviour
         }
         foreach (Transform child in emptyContainer)
             Destroy(child.gameObject);
+
+        DOTween.KillAll();
     }
 
     public bool IsOccuipiedByOtherPlayer(GameObject player, int2 targetPosition)
@@ -262,7 +266,8 @@ public class LevelManager : MonoBehaviour
             Mathf.Abs(p2.transform.position.z - level.goalDark.y) < R)
         {
             blockInput = true;
-            StartCoroutine(DelayedStartNextLevel(0.7f));
+            OnLevelCompleted?.Invoke();
+            StartCoroutine(DelayedStartNextLevel(1.3f));
         }
     }
 
