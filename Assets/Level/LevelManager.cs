@@ -2,6 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 using Unity.Mathematics;
 using System.Collections;
+using System;
 
 public class LevelManager : MonoBehaviour
 {
@@ -21,10 +22,12 @@ public class LevelManager : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private Transform minPosition;
     [SerializeField] private Transform maxPosition;
+    public event Action OnLevelLoaded; 
 
     public bool blockInput = false;
 
     private int currentLevel = 1;
+    public int CurrentLevel => currentLevel;
 
     public Level level;
     private GameObject[,] instances;
@@ -137,6 +140,7 @@ public class LevelManager : MonoBehaviour
         level.OnRaisedWorldChanged += OnRaisedWorldChanged;
         level.OnTileSwitched += OnTilesSwitched;
         PlayFadeInLevel();
+        OnLevelLoaded?.Invoke();
     }
 
     public void PlayFadeInLevel()
