@@ -25,7 +25,7 @@ public struct Tile
     /// <returns></returns>
     public bool IsPushable()
     {
-        if (type == Type.Empty)
+        if (type == Type.Empty || type == Type.Goal)
             return false;
 
         return true;
