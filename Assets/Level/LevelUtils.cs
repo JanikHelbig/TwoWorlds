@@ -6,8 +6,7 @@ public static class LevelUtils
 {
     public static Level LoadLevelDataFromFile(string fileName)
     {
-        TextAsset file =  Resources.Load<TextAsset>(Path.Combine("Levels",fileName));
-        string[] lines = file.text.Split("\r\n");
+        string[] lines = File.ReadAllLines(Path.Combine(Application.streamingAssetsPath, "Levels", fileName + ".txt"));
         int width = 0;
         foreach(string line in lines)
         {
