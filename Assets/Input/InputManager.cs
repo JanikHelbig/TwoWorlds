@@ -15,6 +15,7 @@ namespace CustomInput
         private void Awake()
         {
             _inputActions = new InputActions();
+            _inputActions.Enable();
         }
 
         public void SelectControlMode(ControlMode controlMode)
@@ -39,7 +40,7 @@ namespace CustomInput
                 _                                                  => null
             };
 
-            return action?.ReadValue<float2>() ?? float2.zero;
+            return action?.ReadValue<Vector2>() ?? float2.zero;
         }
     }
 }

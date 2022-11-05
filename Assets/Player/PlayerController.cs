@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Unity.Mathematics;
 using Collision;
 using CustomInput;
@@ -19,7 +18,6 @@ namespace Character
 
         private Transform _tf;
         private AABB _collider;
-        private float2 _currentPosition;
 
         private void Awake()
         {
@@ -28,17 +26,21 @@ namespace Character
 
         private void Update()
         {
+            float2 currentPosition = ((float3)_tf.position).xz;
+
             var extents = new float2(colliderSize);
-            float2 min = _currentPosition - extents;
-            float2 max = _currentPosition + extents;
+            float2 min = currentPosition - extents;
+            float2 max = currentPosition + extents;
             _collider = new AABB(min, max);
 
             float2 moveInput = inputManager.GetPlayerMoveInput(world);
+            Debug.Log($"Input.{world}: {moveInput}");
             float2 delta = moveInput * Time.deltaTime;
-            Sweep sweep = collisionWorld.MovePlayer(world, _collider, delta);
 
-            _currentPosition = sweep.position;
-            _tf.position = _tf.position.With(x: _currentPosition.x, z: _currentPosition.y);
+            Sweep sweep = collisionWorld.MovePlayer(world, _collider, currentPosition + delta);
+
+            currentPosition = sweep.position;
+            _tf.position = _tf.position.With(x: currentPosition.x, z: currentPosition.y);
         }
     }
 }

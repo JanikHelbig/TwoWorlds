@@ -19,7 +19,7 @@ namespace Collision
             for (int x = gridPosition.x - 1; x <= gridPosition.x + 1; x++)
             {
                 Tile tile = levelManager.level[x, y];
-                if (!tile.IsWalkable())
+                if (tile.world == world || !tile.IsWalkable())
                     yield break;
 
                 var center = new float2(x, y);
@@ -36,7 +36,7 @@ namespace Collision
             Sweep nearest;
             nearest.hit = null;
             nearest.time = 1;
-            nearest.position = player.Center + position;
+            nearest.position = position;
 
             foreach (AABB worldCollider in GetWorldColliders(world, position))
             {
