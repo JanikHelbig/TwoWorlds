@@ -30,7 +30,6 @@ public class Level
     {
         get
         {
-
             if (x < 0 || y < 0 || x >= Width || y >= Height)
             {
                 Tile empty = new Tile();

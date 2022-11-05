@@ -34,10 +34,9 @@ namespace Character
             _collider = new AABB(min, max);
 
             float2 moveInput = inputManager.GetPlayerMoveInput(world);
-            Debug.Log($"Input.{world}: {moveInput}");
             float2 delta = moveInput * Time.deltaTime;
 
-            Sweep sweep = collisionWorld.MovePlayer(world, _collider, currentPosition + delta);
+            Sweep sweep = collisionWorld.MovePlayer(world, _collider, delta);
 
             currentPosition = sweep.position;
             _tf.position = _tf.position.With(x: currentPosition.x, z: currentPosition.y);

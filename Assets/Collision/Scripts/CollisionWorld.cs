@@ -19,7 +19,7 @@ namespace Collision
             for (int x = gridPosition.x - 1; x <= gridPosition.x + 1; x++)
             {
                 Tile tile = levelManager.level[x, y];
-                if (tile.world == world || !tile.IsWalkable())
+                if (tile.world == world && tile.IsWalkable())
                     yield break;
 
                 var center = new float2(x, y);
@@ -31,20 +31,18 @@ namespace Collision
             }
         }
 
-        public Sweep MovePlayer(World world, AABB player, float2 position)
+        public Sweep MovePlayer(World world, AABB player, float2 delta)
         {
             Sweep nearest;
             nearest.hit = null;
             nearest.time = 1;
-            nearest.position = position;
+            nearest.position = player.Center + delta;
 
-            foreach (AABB worldCollider in GetWorldColliders(world, position))
+            foreach (AABB worldCollider in GetWorldColliders(world, player.Center))
             {
-                Sweep sweep = SweepAABB(player, worldCollider, position - player.Center);
+                Sweep sweep = SweepAABB(player, worldCollider, delta);
                 if (sweep.time < nearest.time)
-                {
                     nearest = sweep;
-                }
             }
 
             return nearest;
