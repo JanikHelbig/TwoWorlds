@@ -1,8 +1,9 @@
 ﻿using System;
+using UnityEngine;
+using Unity.Mathematics;
 using Collision;
 using CustomInput;
-using Unity.Mathematics;
-using UnityEngine;
+using Utility;
 
 namespace Character
 {
@@ -16,8 +17,14 @@ namespace Character
         [SerializeField] private World world;
         [SerializeField] private float colliderSize;
 
+        private Transform _tf;
         private AABB _collider;
         private float2 _currentPosition;
+
+        private void Awake()
+        {
+            _tf = transform;
+        }
 
         private void Update()
         {
@@ -28,9 +35,11 @@ namespace Character
             _collider = new AABB(min, max);
 
             float2 moveInput = inputManager.GetPlayerMoveInput(world);
-            Sweep sweep = collisionWorld.MovePlayer(world, _collider, moveInput);
+            float2 delta = moveInput * Time.deltaTime;
+            Sweep sweep = collisionWorld.MovePlayer(world, _collider, delta);
 
-
+            _currentPosition = sweep.position;
+            _tf.position = _tf.position.With(x: _currentPosition.x, z: _currentPosition.y);
         }
     }
 }
