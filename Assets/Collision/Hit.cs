@@ -2,10 +2,11 @@
 
 namespace Collision
 {
-    public struct Sweep
+    public struct Hit
     {
-        public Hit? hit;
         public float2 position;
+        public float2 delta;
+        public float2 normal;
         public float time;
     }
 }
