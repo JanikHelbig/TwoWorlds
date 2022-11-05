@@ -17,11 +17,13 @@ namespace Character
         [SerializeField] private float colliderSize;
 
         private Transform _tf;
+        private Rigidbody _rigid;
         private AABB _collider;
 
         private void Awake()
         {
             _tf = transform;
+            _rigid = this.GetComponent<Rigidbody>();
         }
 
         private void Update()
@@ -36,10 +38,13 @@ namespace Character
             float2 moveInput = inputManager.GetPlayerMoveInput(world);
             float2 delta = moveInput * Time.deltaTime;
 
-            Sweep sweep = collisionWorld.MovePlayer(world, _collider, delta);
+            Vector3 targetPos = _tf.position.With(x: currentPosition.x + delta.x, z: currentPosition.y + delta.y);
 
-            currentPosition = sweep.position;
-            _tf.position = _tf.position.With(x: currentPosition.x, z: currentPosition.y);
+            this._rigid.MovePosition(targetPos);
+            //Sweep sweep = collisionWorld.MovePlayer(world, _collider, delta);
+
+            //currentPosition = sweep.position;
+            //_tf.position = _tf.position.With(x: currentPosition.x, z: currentPosition.y);
         }
     }
 }

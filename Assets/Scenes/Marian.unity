@@ -635,6 +635,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2815715858189524859, guid: e2cfc6d6c5144c3429e66099abc14053,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3522094893776118672, guid: e2cfc6d6c5144c3429e66099abc14053,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 7174334293427403729, guid: e2cfc6d6c5144c3429e66099abc14053,
         type: 3}
       propertyPath: inputManager
@@ -714,6 +724,19 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1610471409, guid: c8c35233bcc3d6145a726903f762c172, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1610471409, guid: c8c35233bcc3d6145a726903f762c172, type: 3}
+      propertyPath: m_Constraints
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3485918535353093396, guid: c8c35233bcc3d6145a726903f762c172,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7474528066998189505, guid: c8c35233bcc3d6145a726903f762c172,
         type: 3}
       propertyPath: m_RootOrder
@@ -783,11 +806,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerDark
-      objectReference: {fileID: 0}
-    - target: {fileID: 7474528066998189535, guid: c8c35233bcc3d6145a726903f762c172,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8c35233bcc3d6145a726903f762c172, type: 3}
