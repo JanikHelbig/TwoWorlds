@@ -121,6 +121,10 @@ public class LevelManager : MonoBehaviour
 
     public void PlayFadeInLevel()
     {
+        float offset = 3;
+        float d = 0.1f;
+        float t = 0.5f;
+
         DOTween.KillAll();
         Sequence s = DOTween.Sequence();
         for(int x = 0; x < level.Width; x++)
@@ -129,20 +133,20 @@ public class LevelManager : MonoBehaviour
             GameObject g = instances[x, y];
             if (!g) continue;
             float target = g.transform.localPosition.y;
-            g.transform.localPosition += Vector3.down * 3;
-            float delay = (x+y) * 0.15f;
+            g.transform.localPosition += Vector3.down * offset;
+            float delay = (x+y) * d;
             Sequence a = DOTween.Sequence();
             a.AppendInterval(delay);
-            a.Append(g.transform.DOLocalMoveY(target, 0.5f));
+            a.Append(g.transform.DOLocalMoveY(target, t));
             if(math.all(level.spawnLight == new int2(x, y)))
             {
-                p1.transform.localPosition += Vector3.down * 3;
-                a.Join(p1.transform.DOLocalMoveY(target, 0.5f));
+                p1.transform.localPosition += Vector3.down * offset;
+                a.Join(p1.transform.DOLocalMoveY(target, t));
             }
             if (math.all(level.spawnDark == new int2(x, y)))
             {
-                p2.transform.localPosition += Vector3.down * 3;
-                a.Join(p2.transform.DOLocalMoveY(target, 0.5f));
+                p2.transform.localPosition += Vector3.down * offset;
+                a.Join(p2.transform.DOLocalMoveY(target,t));
             }
             
             s.Join(a);
