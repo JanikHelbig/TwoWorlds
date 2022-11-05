@@ -10,7 +10,7 @@ public struct Tile
     /// Returns true if a character can wolk on that tile
     /// </summary>
     /// <returns></returns>
-    public bool IsMovable()
+    public bool IsWalkable()
     {
         if (type == Type.Empty)
             return false;

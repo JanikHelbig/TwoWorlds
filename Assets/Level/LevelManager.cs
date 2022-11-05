@@ -6,18 +6,27 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameObject lightBoxPrefab;
     [SerializeField] private GameObject darkBoxPrefab;
+    [SerializeField] private GameObject lightGoalPrefab;
+    [SerializeField] private GameObject darkGoalPrefab;
     [SerializeField] private Transform lightContainer;
     [SerializeField] private Transform darkContainer;
 
+    [Header("Player")]
+    [SerializeField] private GameObject p1;
+    [SerializeField] private GameObject p2;
+
+    [Header("Camera")]
     [SerializeField] private Transform minPosition;
     [SerializeField] private Transform maxPosition;
+
+    private int currentLevel = 1;
 
     public Level level;
     private GameObject[,] instances;
 
     private void Awake()
     {
-        LoadLevel("test");
+        RestartLevel();
     }
 
     private void ClearLevel()
@@ -50,19 +59,34 @@ public class LevelManager : MonoBehaviour
             {
                 GameObject prefab = null;
                 Transform container = this.transform;
-                if(level.tiles[x,y].type == Tile.Type.Block)
+                switch (level.tiles[x,y].type)
                 {
-                    switch(level.tiles[x,y].world)
-                    {
-                        case World.Dark:
-                            prefab = darkBoxPrefab;
-                            container = darkContainer;
-                            break;
-                        case World.Light:
-                            prefab = lightBoxPrefab;
-                            container = lightContainer;
-                            break;
-                    }
+                    case Tile.Type.Block:
+                        switch (level.tiles[x,y].world)
+                        {
+                            case World.Dark:
+                                prefab = darkBoxPrefab;
+                                container = darkContainer;
+                                break;
+                            case World.Light:
+                                prefab = lightBoxPrefab;
+                                container = lightContainer;
+                                break;
+                        }
+                    break;
+                    case Tile.Type.Goal:
+                        switch (level.tiles[x, y].world)
+                        {
+                            case World.Dark:
+                                prefab = darkGoalPrefab;
+                                container = darkContainer;
+                                break;
+                            case World.Light:
+                                prefab = lightGoalPrefab;
+                                container = lightContainer;
+                                break;
+                        }
+                        break;
                 }
 
                 if(prefab)
@@ -79,21 +103,102 @@ public class LevelManager : MonoBehaviour
 
         lightContainer.transform.position = Vector3.zero;
         darkContainer.transform.position = Vector3.zero + Vector3.up;
+        if(p1)
+        {
+            p1.transform.SetParent(lightContainer);
+            p1.transform.localPosition = new Vector3(level.spawnLight.x, 0, level.spawnLight.y);
+        }
+        if(p2)
+        {
+            p1.transform.SetParent(darkContainer);
+            p1.transform.localPosition = new Vector3(level.spawnDark.x, 0, level.spawnDark.y);
+        }
 
         level.OnRaisedWorldChanged += OnRaisedWorldChanged;
         level.OnTileSwitched += OnTilesSwitched;
+    }
+
+    public void RestartLevel()
+    {
+        LoadLevel("lvl" + currentLevel);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
             level?.ToggleRaisedWorld();
-        
+
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            currentLevel = 1;
+            RestartLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            currentLevel = 2;
+            RestartLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            currentLevel = 3;
+            RestartLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            currentLevel = 4;
+            RestartLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            currentLevel =5;
+            RestartLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            currentLevel = 6;
+            RestartLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            currentLevel = 7;
+            RestartLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            currentLevel = 8;
+            RestartLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            currentLevel = 9;
+            RestartLevel();
+        }
+
+
         if (Input.GetKeyDown(KeyCode.R))
-            LoadLevel("test");
+            RestartLevel();
 
         if (Input.GetKeyDown(KeyCode.A))
             level?.TryMoveTile(new int2(2,2), Direction.NORTH);
+
+        CheckWinCondition();
+    }
+
+    void CheckWinCondition()
+    {
+        if (!p1 || !p2)
+            return;
+
+        float R = 0.5f;
+        if(Mathf.Abs(p1.transform.position.x - level.goalLight.x) < R &&
+            Mathf.Abs(p1.transform.position.y - level.goalLight.y) < R && 
+            Mathf.Abs(p2.transform.position.x - level.goalDark.x) < R &&
+            Mathf.Abs(p2.transform.position.y - level.goalDark.y) < R)
+        {
+            currentLevel++;
+            RestartLevel();
+        }
     }
 
     void OnRaisedWorldChanged(World raisedWorld)
