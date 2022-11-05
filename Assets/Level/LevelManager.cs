@@ -26,7 +26,7 @@ public class LevelManager : MonoBehaviour
     public event Action OnLevelLoaded;
     public event Action OnLevelCompleted;
 
-    public bool blockInput = false;
+    public bool blockInput = true;
 
     private int currentLevel = 1;
     public int CurrentLevel => currentLevel;

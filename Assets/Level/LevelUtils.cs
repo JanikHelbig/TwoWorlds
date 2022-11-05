@@ -7,9 +7,15 @@ public static class LevelUtils
     public static Level LoadLevelDataFromFile(string fileName)
     {
         string[] lines = new string[0];
+
+#if UNITY_WEBGL
+        var f = Resources.Load<TextAsset>(Path.Combine("Levels", fileName));
+        lines = f.text.Split("\r\n");
+#else
         string path = Path.Combine(Application.streamingAssetsPath, "Levels", fileName + ".txt");
         if (File.Exists(path))
             lines = File.ReadAllLines(path);
+#endif
         int width = 0;
         foreach(string line in lines)
         {
