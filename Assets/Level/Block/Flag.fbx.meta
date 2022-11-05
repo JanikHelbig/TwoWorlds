@@ -1,36 +1,11 @@
 fileFormatVersion: 2
-guid: e82437c86587510409e1b8bf07baf536
+guid: 447968b8109cfdc47bdc19245dd48889
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: block_black
-    second: {fileID: 2100000, guid: 8de5fdbe022e32e4e9478b459da56bac, type: 2}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Wood_black_02_COL
-    second: {fileID: 2800000, guid: e8bf0824421ff2348adbaa1230be1ed6, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Wood_black_COL
-    second: {fileID: 2800000, guid: f4e60d0fce06a304db02f33727baa36a, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Wood_block_GLOSS
-    second: {fileID: 2800000, guid: 30be79111b534ba4888498d4cae448d1, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Wood_block_NORM
-    second: {fileID: 2800000, guid: d9fba4d99482c704a80e71021be74150, type: 3}
+  externalObjects: {}
   materials:
-    materialImportMode: 2
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1

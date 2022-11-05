@@ -13,12 +13,17 @@ ModelImporter:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Wood_block_GLOSS
-    second: {fileID: 2800000, guid: 4092329de0c72c04f8737c8e7bdbe7d2, type: 3}
+    second: {fileID: 2800000, guid: acd37cd1795194347af614135f440d07, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Wood_block_NORM
-    second: {fileID: 2800000, guid: 7c33db77743127442af71c51c47fbe08, type: 3}
+    second: {fileID: 2800000, guid: aec4d6cba9f825e488f23bb0857bc648, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Wood_white_02_COL
+    second: {fileID: 2800000, guid: 377b1b466a0462e469e66ceb5a8121ec, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
