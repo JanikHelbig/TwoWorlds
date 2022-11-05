@@ -52,6 +52,8 @@ public class Level
     public int Width => tiles.GetLength(0);
     public int Height => tiles.GetLength(1);
 
+
+
     public bool TryMoveTile(int2 position, Direction dir)
     {
         if (!CanMoveTile(position, dir))
@@ -76,7 +78,7 @@ public class Level
         
         if (!blockToMove.IsPushable() || blockToMove.world != this.raisedWorld)
             return false; //Is not a raised block
-        if (!blockToMove.CanBePushedOn() || targetTile.world == this.raisedWorld)
+        if (!targetTile.CanBePushedOn() || targetTile.world == this.raisedWorld)
             return false; //Is not a tile to be moved to
 
         return true;
