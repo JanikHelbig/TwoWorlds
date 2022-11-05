@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Linq;
+using DG.Tweening;
 
 public class LevelManager : MonoBehaviour
 {
@@ -49,5 +49,21 @@ public class LevelManager : MonoBehaviour
 
         lightContainer.transform.position = Vector3.zero;
         darkContainer.transform.position = Vector3.zero + Vector3.up;
+        level.OnRaisedWorldChanged += OnRaisedWorldChanged;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+            level?.ToggleRaisedWorld();
+    }
+
+    void OnRaisedWorldChanged(World raisedWorld)
+    {
+        float duration = 0.2f;
+        Sequence s = DOTween.Sequence();
+        s.Join(darkContainer.transform.DOLocalMoveY(raisedWorld == World.Dark ? 1 : 0, duration));
+        s.Join(lightContainer.transform.DOLocalMoveY(raisedWorld == World.Light ? 1 : 0, duration));
+        s.Play();
     }
 }
