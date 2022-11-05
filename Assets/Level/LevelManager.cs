@@ -98,8 +98,8 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        minPosition.transform.position = new Vector3(-0.5f, 2, -0.5f);
-        maxPosition.transform.position = new Vector3(level.Width+0.5f, 2,level.Height+0.5f);
+        minPosition.transform.position = new Vector3(-0.5f, 0, -0.5f);
+        maxPosition.transform.position = new Vector3(level.Width+0.5f, 0, level.Height+0.5f);
 
         lightContainer.transform.position = Vector3.zero;
         darkContainer.transform.position = Vector3.zero + Vector3.up;
