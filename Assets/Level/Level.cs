@@ -5,8 +5,10 @@ using Unity.Mathematics;
 public class Level
 {
     public Tile[,] tiles;
-    public Vector2Int spawnDark;
-    public Vector2Int spawnLight;
+    public int2 spawnDark;
+    public int2 spawnLight;
+    public int2 goalDark;
+    public int2 goalLight;
     public bool activeWorld;
 
     private World raisedWorld = World.Dark;
@@ -73,9 +75,9 @@ public class Level
         Tile blockToMove = this[position.x, position.y];
         Tile targetTile = this[nextPosition.x, nextPosition.y];
         
-        if (blockToMove.type != Tile.Type.Block || blockToMove.world != this.raisedWorld)
+        if (!blockToMove.IsPushable() || blockToMove.world != this.raisedWorld)
             return false; //Is not a raised block
-        if (targetTile.type != Tile.Type.Block || targetTile.world == this.raisedWorld)
+        if (!blockToMove.CanBePushedOn() || targetTile.world == this.raisedWorld)
             return false; //Is not a tile to be moved to
 
         return true;
