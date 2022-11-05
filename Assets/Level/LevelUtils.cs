@@ -6,7 +6,10 @@ public static class LevelUtils
 {
     public static Level LoadLevelDataFromFile(string fileName)
     {
-        string[] lines = File.ReadAllLines(Path.Combine(Application.streamingAssetsPath, "Levels", fileName + ".txt"));
+        string[] lines = new string[0];
+        string path = Path.Combine(Application.streamingAssetsPath, "Levels", fileName + ".txt");
+        if (File.Exists(path))
+            lines = File.ReadAllLines(path);
         int width = 0;
         foreach(string line in lines)
         {
@@ -20,7 +23,7 @@ public static class LevelUtils
 
         for (int y = 0; y < height; y++)
         {
-            string line = lines[y];
+            string line = lines[height - y-1];
             for (int x = 0; x<width;x++)
             {
                 lvl.tiles[x, y] = new Tile();
@@ -44,7 +47,7 @@ public static class LevelUtils
                         lvl.spawnDark = new int2(x, y);
                         break;
                     case 'X':
-                        type = Tile.Type.Block;
+                        type = Tile.Type.Goal;
                         world = World.Dark;
                         lvl.goalDark = new int2(x, y);
                         break;
@@ -58,7 +61,7 @@ public static class LevelUtils
                         lvl.spawnLight = new int2(x, y);
                         break;
                     case 'I':
-                        type = Tile.Type.Block;
+                        type = Tile.Type.Goal;
                         world = World.Light;
                         lvl.goalLight = new int2(x, y);
                         break;

@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1304127827593762061}
-  m_RootOrder: -1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &88485741
 MonoBehaviour:
@@ -83,7 +83,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1304127827593762061}
-  m_RootOrder: -1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1252553734
 GameObject:
@@ -114,7 +114,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1304127827593762061}
-  m_RootOrder: -1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1304127827593762059
 GameObject:
@@ -151,7 +151,7 @@ Transform:
   - {fileID: 115911155}
   - {fileID: 1252553738}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1304127827593762058
 MonoBehaviour:
@@ -169,8 +169,14 @@ MonoBehaviour:
     type: 3}
   darkBoxPrefab: {fileID: 8668964108686945042, guid: 834b15ba50e49b042babe9f9c29699e5,
     type: 3}
+  lightGoalPrefab: {fileID: 5477047137876168710, guid: 4312d99e3b1d3d84da51115ba73997fc,
+    type: 3}
+  darkGoalPrefab: {fileID: 9219625016947052967, guid: 0c4ac21f6719f0b4bbd33af8c25ece08,
+    type: 3}
   lightContainer: {fileID: 1304127829492536951}
   darkContainer: {fileID: 1304127829535217203}
+  p1: {fileID: 0}
+  p2: {fileID: 0}
   minPosition: {fileID: 115911155}
   maxPosition: {fileID: 1252553738}
 --- !u!1 &1304127829492536948
@@ -202,7 +208,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1304127827593762061}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1304127829535217200
 GameObject:
@@ -233,5 +239,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1304127827593762061}
-  m_RootOrder: -1
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
