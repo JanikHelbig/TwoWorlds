@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Unity.Mathematics;
 
 public class Level
 {
@@ -11,6 +12,7 @@ public class Level
     private World raisedWorld = World.Dark;
 
     public event Action<World> OnRaisedWorldChanged;
+    public event Action<int2, int2> OnTileSwitched;
 
     public World RaisedWorld
     {
@@ -35,10 +37,49 @@ public class Level
             }
             return tiles[x, y];
         }
+        private set
+        {
+
+            if (x < 0 || y < 0 || x >= Width || y >= Height)
+            {
+                return;
+            }
+            tiles[x, y] = value;
+        }
 }
 
     public int Width => tiles.GetLength(0);
     public int Height => tiles.GetLength(1);
+
+    public bool TryMoveTile(int2 position, Direction dir)
+    {
+        if (!CanMoveTile(position, dir))
+            return false;
+
+        int2 nextPosition = position.OffsetPosition(dir);
+        Tile t1 = this[position.x, position.y];
+        Tile t2 = this[nextPosition.x, nextPosition.y];
+        this[position.x, position.y] = t2;
+        this[nextPosition.x, nextPosition.y] = t1;
+
+        OnTileSwitched?.Invoke(position, nextPosition);
+
+        return true;
+    }
+
+    public bool CanMoveTile(int2 position, Direction dir)
+    {
+        int2 nextPosition = position.OffsetPosition(dir);
+        Tile blockToMove = this[position.x, position.y];
+        Tile targetTile = this[nextPosition.x, nextPosition.y];
+        
+        if (blockToMove.type != Tile.Type.Block || blockToMove.world != this.raisedWorld)
+            return false; //Is not a raised block
+        if (targetTile.type != Tile.Type.Block || targetTile.world == this.raisedWorld)
+            return false; //Is not a tile to be moved to
+
+        return true;
+    }
 
     public void ToggleRaisedWorld()
     {
@@ -46,9 +87,5 @@ public class Level
             RaisedWorld = World.Light;
         else
             RaisedWorld = World.Dark;
-
-
-
-
     }
 }

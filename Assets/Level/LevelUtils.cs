@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.IO;
+using Unity.Mathematics;
 
 public static class LevelUtils
 {
     public static Level LoadLevelDataFromFile(string fileName)
     {
-        TextAsset file =  Resources.Load<TextAsset>(Path.Combine("Levels",fileName));
-        string[] lines = file.text.Split("\r\n");
+        string[] lines = File.ReadAllLines(Path.Combine(Application.streamingAssetsPath, "Levels", fileName + ".txt"));
         int width = 0;
         foreach(string line in lines)
         {
@@ -59,5 +59,21 @@ public static class LevelUtils
         }
 
         return lvl;
+    }
+
+    public static int2 OffsetPosition(this int2 position, Direction dir)
+    {
+        switch(dir)
+        {
+            case Direction.NORTH:
+                return position + new int2(0,1);
+            case Direction.EAST:
+                return position + new int2(1, 0);
+            case Direction.SOUTH:
+                return position + new int2(0, -1);
+            case Direction.WEST:
+                return position + new int2(-1, 0);
+        }
+        throw new System.Exception("Invalid Direction: "+dir);
     }
 }
