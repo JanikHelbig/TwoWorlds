@@ -8,8 +8,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject darkBoxPrefab;
     [SerializeField] private GameObject lightGoalPrefab;
     [SerializeField] private GameObject darkGoalPrefab;
+    [SerializeField] private GameObject emptyPrefab;
     [SerializeField] private Transform lightContainer;
     [SerializeField] private Transform darkContainer;
+    [SerializeField] private Transform emptyContainer;
 
     [Header("Player")]
     [SerializeField] private GameObject p1;
@@ -45,6 +47,8 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
+        foreach (Transform child in emptyContainer)
+            Destroy(child.gameObject);
     }
 
     public void LoadLevel(string fileName)
@@ -53,13 +57,13 @@ public class LevelManager : MonoBehaviour
 
         level = LevelUtils.LoadLevelDataFromFile(fileName);
         instances = new GameObject[level.Width,level.Height];
-        for(int x = 0; x < level.Width; x++)
+        for(int x = -1; x <= level.Width; x++)
         {
-            for(int y=0; y < level.Height; y++)
+            for(int y=-1; y <= level.Height; y++)
             {
                 GameObject prefab = null;
                 Transform container = this.transform;
-                switch (level.tiles[x,y].type)
+                switch (level[x,y].type)
                 {
                     case Tile.Type.Block:
                         switch (level.tiles[x,y].world)
@@ -87,13 +91,18 @@ public class LevelManager : MonoBehaviour
                                 break;
                         }
                         break;
+                    case Tile.Type.Empty:
+                        prefab = emptyPrefab;
+                        container = emptyContainer;
+                        break;
                 }
 
                 if(prefab)
                 {
                     var go = Instantiate(prefab, container);
                     go.transform.localPosition = new Vector3(x, 0, y);
-                    instances[x, y] = go;
+                    if(x>0 && y>0 && x<level.Width && y<level.Height)
+                        instances[x, y] = go;
                 }
             }
         }

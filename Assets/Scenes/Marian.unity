@@ -297,6 +297,12 @@ PrefabInstance:
       propertyPath: p2
       value: 
       objectReference: {fileID: 1610471406}
+    - target: {fileID: 1304127827593762058, guid: 5c4b0199caa778d4e87c8ae064b2637d,
+        type: 3}
+      propertyPath: emptyPrefab
+      value: 
+      objectReference: {fileID: 948283102283643075, guid: 6333bd5c8085f394ea940519538a9973,
+        type: 3}
     - target: {fileID: 1304127827593762059, guid: 5c4b0199caa778d4e87c8ae064b2637d,
         type: 3}
       propertyPath: m_Name
