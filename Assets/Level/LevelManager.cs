@@ -178,10 +178,7 @@ public class LevelManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
             RestartLevel();
-
-        if (Input.GetKeyDown(KeyCode.A))
-            level?.TryMoveTile(new int2(2,2), Direction.NORTH);
-
+        
         CheckWinCondition();
     }
 
