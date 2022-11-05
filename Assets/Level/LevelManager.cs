@@ -234,9 +234,9 @@ public class LevelManager : MonoBehaviour
 
         float R = 0.5f;
         if(Mathf.Abs(p1.transform.position.x - level.goalLight.x) < R &&
-            Mathf.Abs(p1.transform.position.y - level.goalLight.y) < R && 
+            Mathf.Abs(p1.transform.position.z - level.goalLight.y) < R && 
             Mathf.Abs(p2.transform.position.x - level.goalDark.x) < R &&
-            Mathf.Abs(p2.transform.position.y - level.goalDark.y) < R)
+            Mathf.Abs(p2.transform.position.z - level.goalDark.y) < R)
         {
             currentLevel++;
             RestartLevel();
