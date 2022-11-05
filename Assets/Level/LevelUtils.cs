@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.IO;
+using Unity.Mathematics;
 
 public static class LevelUtils
 {
@@ -59,5 +60,21 @@ public static class LevelUtils
         }
 
         return lvl;
+    }
+
+    public static int2 OffsetPosition(this int2 position, Direction dir)
+    {
+        switch(dir)
+        {
+            case Direction.NORTH:
+                return position + new int2(0,1);
+            case Direction.EAST:
+                return position + new int2(1, 0);
+            case Direction.SOUTH:
+                return position + new int2(0, -1);
+            case Direction.WEST:
+                return position + new int2(-1, 0);
+        }
+        throw new System.Exception("Invalid Direction: "+dir);
     }
 }
