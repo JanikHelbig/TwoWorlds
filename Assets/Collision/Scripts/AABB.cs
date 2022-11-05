@@ -13,7 +13,7 @@ namespace Collision
             this.max = max;
         }
 
-        public float2 Center => min + max * 0.5f;
+        public float2 Center => min + Extents;
         public float2 Extents => (max - min) * 0.5f;
     }
 }
