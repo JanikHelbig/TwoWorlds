@@ -38,10 +38,15 @@ public static class LevelUtils
                         type = Tile.Type.Block;
                         world = World.Dark;
                         break;
+                    case 'x':
+                        type = Tile.Type.Block;
+                        world = World.Dark;
+                        lvl.spawnDark = new int2(x, y);
+                        break;
                     case 'X':
                         type = Tile.Type.Block;
                         world = World.Dark;
-                        lvl.spawnDark = new Vector2Int(x, y);
+                        lvl.goalDark = new int2(x, y);
                         break;
                     case '.':
                         type = Tile.Type.Block;
@@ -50,7 +55,12 @@ public static class LevelUtils
                     case 'i':
                         type = Tile.Type.Block;
                         world = World.Light;
-                        lvl.spawnLight = new Vector2Int(x, y);
+                        lvl.spawnLight = new int2(x, y);
+                        break;
+                    case 'I':
+                        type = Tile.Type.Block;
+                        world = World.Light;
+                        lvl.goalLight = new int2(x, y);
                         break;
                 }
                 lvl.tiles[x, y].type = type;
