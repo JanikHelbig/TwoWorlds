@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2045785928844634694}
   - component: {fileID: 2370085128330755826}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.45
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -96,7 +96,7 @@ MonoBehaviour:
   inputManager: {fileID: 0}
   collisionWorld: {fileID: 0}
   world: 1
-  colliderSize: 0.5
+  moveSpeed: 2
 --- !u!54 &2815715858189524859
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -111,7 +111,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 90
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!1 &8310096146166402421
 GameObject:

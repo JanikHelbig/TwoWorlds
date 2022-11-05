@@ -148,7 +148,17 @@ PrefabInstance:
     - target: {fileID: 3041690823333287204, guid: 4b47f7f93b3d38f47839649d03e78333,
         type: 3}
       propertyPath: m_Name
-      value: Goal_White
+      value: Goal_White Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 6773782132912130597, guid: 4b47f7f93b3d38f47839649d03e78333,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7680519247165649294, guid: 4b47f7f93b3d38f47839649d03e78333,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b47f7f93b3d38f47839649d03e78333, type: 3}

@@ -90,6 +90,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 898845983857734675, guid: 834b15ba50e49b042babe9f9c29699e5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102417327472381880, guid: 834b15ba50e49b042babe9f9c29699e5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8288180504790118824, guid: 834b15ba50e49b042babe9f9c29699e5,
         type: 3}
       propertyPath: m_RootOrder
@@ -148,7 +158,7 @@ PrefabInstance:
     - target: {fileID: 8668964108686945042, guid: 834b15ba50e49b042babe9f9c29699e5,
         type: 3}
       propertyPath: m_Name
-      value: Goal_Dark
+      value: Goal_Dark Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 834b15ba50e49b042babe9f9c29699e5, type: 3}
