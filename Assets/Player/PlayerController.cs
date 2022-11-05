@@ -3,6 +3,7 @@ using UnityEngine;
 using Unity.Mathematics;
 using CustomInput;
 using Utility;
+using DG.Tweening;
 
 namespace Character
 {
@@ -14,54 +15,47 @@ namespace Character
 
         [Header("Settings")]
         [SerializeField] private World world;
-        [SerializeField] private float moveSpeed = 2;
-        [SerializeField] private float pushTriggerThreshold;
 
         private Transform _tf;
-        private Rigidbody _rigid;
 
-        private Collider _pushingCollider;
-        private float _pushDuration;
-
-        private float2 Position => new(_tf.position.x, _tf.position.z);
-
+        private float _moveDelay = 0;
+        
         private void Awake()
         {
             _tf = transform;
-            _rigid = GetComponent<Rigidbody>();
         }
 
-        private void FixedUpdate()
+
+        private void Update()
         {
-            float2 currentPosition = ((float3) _rigid.position).xz;
+            _moveDelay -= Time.deltaTime;
+            if (_moveDelay > 0)
+                return;
 
             float2 moveInput = inputManager.GetPlayerMoveInput(world);
-            float2 delta = moveInput * moveSpeed * Time.deltaTime;
 
-            Vector3 targetPos = _tf.position.With(
-                x: currentPosition.x + delta.x,
-                z: currentPosition.y + delta.y);
+            if (moveInput.x == 0 && moveInput.y == 0)
+                return;
 
-            _rigid.MovePosition(targetPos);
-        }
+            float3 pos = this.transform.position;
+            int2 currentPos = (int2)math.round(pos.xz);
+            var d = DirectionUtility.From(moveInput);
+            int2 nextPos = currentPos.OffsetPosition(d);
 
-        private void OnCollisionStay(Collision collisionInfo)
-        {
-            if (_pushingCollider == collisionInfo.collider)
+
+            Tile t = levelManager.level[nextPos.x, nextPos.y];
+            if(t.IsWalkable() && t.world == this.world)
             {
-                _pushDuration += Time.deltaTime;
-                if (_pushDuration >= pushTriggerThreshold)
-                {
-                    float3 pos = _pushingCollider.transform.position;
-                    int2 gridPos = (int2) math.round(pos.xz);
-                    float2 dir = pos.xz - Position;
-                    levelManager.level.TryMoveTile(gridPos, DirectionUtility.From(dir));
-                    _pushDuration = 0;
-                }
+                Vector3 target = _tf.position.With(x: nextPos.x, z: nextPos.y);
+                this.transform.DOLocalMove(target, 0.5f).Play();
+                _moveDelay = 0.5f;
             }
-            else
+            if(t.IsPushable() && t.world != this.world && levelManager.level.CanMoveTile(nextPos, d))
             {
-                _pushingCollider = collisionInfo.collider;
+                levelManager.level.TryMoveTile(nextPos, d);
+                Vector3 target = _tf.position.With(x: nextPos.x, z: nextPos.y);
+                this.transform.DOLocalMove(target, 0.5f).Play();
+                _moveDelay = 0.5f;
             }
         }
     }
