@@ -18,8 +18,8 @@ namespace Collision
             for (int y = gridPosition.y - 1; y <= gridPosition.y + 1; y++)
             for (int x = gridPosition.x - 1; x <= gridPosition.x + 1; x++)
             {
-                Tile tile = levelManager.level.tiles[x, y];
-                if (tile.world == world)
+                Tile tile = levelManager.level[x, y];
+                if (!tile.IsWalkable())
                     yield break;
 
                 var center = new float2(x, y);

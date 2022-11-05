@@ -29,7 +29,6 @@ namespace Character
         private void Update()
         {
             var extents = new float2(colliderSize);
-
             float2 min = _currentPosition - extents;
             float2 max = _currentPosition + extents;
             _collider = new AABB(min, max);
