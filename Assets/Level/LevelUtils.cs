@@ -63,7 +63,7 @@ public static class LevelUtils
                     case 'X':
                         type = Tile.Type.Goal;
                         world = World.Dark;
-                        lvl.goalDark = new int2(x, y);
+                        lvl.goalsDark.Add(new int2(x, y));
                         break;
                     case '.':
                         type = Tile.Type.Block;
@@ -77,7 +77,7 @@ public static class LevelUtils
                     case 'I':
                         type = Tile.Type.Goal;
                         world = World.Light;
-                        lvl.goalLight = new int2(x, y);
+                        lvl.goalsLight.Add(new int2(x, y));
                         break;
                 }
                 lvl.tiles[x, y].type = type;

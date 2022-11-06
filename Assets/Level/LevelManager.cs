@@ -279,10 +279,23 @@ public class LevelManager : MonoBehaviour
             return;
 
         float R = 0.5f;
-        if (Mathf.Abs(p1.transform.position.x - level.goalLight.x) < R &&
-            Mathf.Abs(p1.transform.position.z - level.goalLight.y) < R &&
-            Mathf.Abs(p2.transform.position.x - level.goalDark.x) < R &&
-            Mathf.Abs(p2.transform.position.z - level.goalDark.y) < R)
+        bool isP1OnGoal = false;
+        bool isP2OnGoal = false;
+
+        foreach(int2 goalPos in level.goalsLight)
+        {
+            if (Mathf.Abs(p1.transform.position.x - goalPos.x) < R &&
+                Mathf.Abs(p1.transform.position.z - goalPos.y) < R)
+                isP1OnGoal = true;
+        }
+        foreach (int2 goalPos in level.goalsDark)
+        {
+            if (Mathf.Abs(p2.transform.position.x - goalPos.x) < R &&
+                Mathf.Abs(p2.transform.position.z - goalPos.y) < R)
+                isP2OnGoal = true;
+        }
+
+        if (isP1OnGoal && isP2OnGoal)
         {
             blockInput = true;
             OnLevelCompleted?.Invoke();
@@ -294,7 +307,8 @@ public class LevelManager : MonoBehaviour
     {
         UberAudio.AudioManager.Instance.Play("Victory");
         yield return new WaitForSeconds(delay);
-        currentLevel++;
+        if(customLevel == null)
+            currentLevel++;
         RestartLevel();
     }
 
