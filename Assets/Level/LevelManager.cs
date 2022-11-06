@@ -147,7 +147,6 @@ public class LevelManager : MonoBehaviour
 
         level.OnRaisedWorldChanged += OnRaisedWorldChanged;
         level.OnTileSwitched += OnTilesSwitched;
-        // PlayFadeInLevel();
         yield return FadeInLevelRoutine();
         OnLevelLoaded?.Invoke();
     }
@@ -311,15 +310,16 @@ public class LevelManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        if(customLevel != null)
+        if (customLevel != null)
         {
             var lines = customLevel.Split("\n");
             Level lvl = LevelUtils.LoadLevelFromText(lines);
+            blockInput = true;
             StartCoroutine(TransitionToLevel(lvl));
-
         }
         else
         {
+            blockInput = true;
             Level lvl = LevelUtils.LoadLevelDataFromFile("lvl" + currentLevel);
             StartCoroutine(TransitionToLevel(lvl));
         }
@@ -390,7 +390,7 @@ public class LevelManager : MonoBehaviour
     {
         UberAudio.AudioManager.Instance.Play("Victory");
         yield return new WaitForSeconds(delay);
-        if(customLevel == null)
+        if (customLevel == null)
             currentLevel++;
         RestartLevel();
     }

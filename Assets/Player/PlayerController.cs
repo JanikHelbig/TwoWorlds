@@ -74,7 +74,6 @@ namespace Character
 
             if (t.IsWalkable() && t.world == world)
             {
-                //TODO move animatin
                 _animator.SetBool("Move", true);
                 Vector3 target = _tf.localPosition.With(x: nextPos.x, z: nextPos.y);
                 transform.DOLocalMove(target, 0.5f).Play().OnComplete(()=>_animator.SetBool("Move",false));
@@ -83,7 +82,6 @@ namespace Character
 
             if (t.IsPushable() && t.world != this.world && levelManager.level.CanMoveTile(nextPos, d))
             {
-                // TODO: push move animation
                 levelManager.level.TryMoveTile(nextPos, d);
                 Vector3 target = _tf.localPosition.With(x: nextPos.x, z: nextPos.y);
                 _animator.SetBool("Push", true);
