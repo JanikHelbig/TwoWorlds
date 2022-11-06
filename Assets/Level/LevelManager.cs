@@ -200,54 +200,6 @@ public class LevelManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
             level?.ToggleRaisedWorld();
 
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            currentLevel = 1;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            currentLevel = 2;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            currentLevel = 3;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            currentLevel = 4;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            currentLevel =5;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            currentLevel = 6;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            currentLevel = 7;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            currentLevel = 8;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            currentLevel = 9;
-            RestartLevel();
-        }
-
-
         if (Input.GetKeyDown(KeyCode.R))
             RestartLevel();
         
@@ -273,6 +225,7 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator DelayedStartNextLevel(float delay)
     {
+        UberAudio.AudioManager.Instance.Play("Victory");
         yield return new WaitForSeconds(delay);
         currentLevel++;
         RestartLevel();
@@ -285,6 +238,8 @@ public class LevelManager : MonoBehaviour
         s.Join(darkContainer.transform.DOLocalMoveY(raisedWorld == World.Dark ? 1 : 0, duration));
         s.Join(lightContainer.transform.DOLocalMoveY(raisedWorld == World.Light ? 1 : 0, duration));
         s.Play();
+
+        UberAudio.AudioManager.Instance.Play("SwitchWorld");
     }
 
     void OnTilesSwitched(int2 p1, int2 p2 )
