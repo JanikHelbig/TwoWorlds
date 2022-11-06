@@ -39,10 +39,51 @@ public class LevelManager : MonoBehaviour
         RestartLevel();
     }
 
-    private void ClearLevel()
+    private IEnumerator ClearLevel()
     {
         if (instances != null)
         {
+            Sequence s = DOTween.Sequence();
+            float offset = 8;
+            float t = 0.2f;
+         
+
+            for (int x = 0; x < instances.GetLength(0); x++)
+            {
+
+                for (int y = 0; y < instances.GetLength(1); y++)
+                {
+                    if (instances[x, y] != null)
+                    {
+                        Sequence a = DOTween.Sequence();
+                        float delay = (x + y) * 0.1f;
+                        a.AppendInterval(delay);
+                        float ty = instances[x, y].transform.position.y - offset;
+                        a.Append(instances[x, y].transform.DOLocalMoveY(ty, t));
+
+                        float3 posP1= p1.transform.position;
+                        int2 gridPosP1 = (int2)math.round(posP1.xz);
+                        if (math.all(gridPosP1 == new int2(x, y)))
+                        {
+                            a.Join(p1.transform.DOLocalMoveY(ty, t));
+                        }
+                        float3 posP2 = p2.transform.position;
+                        int2 gridPosP2 = (int2)math.round(posP2.xz);
+                        if (math.all(gridPosP2 == new int2(x, y)))
+                        {
+                            a.Join(p2.transform.DOLocalMoveY(ty, t));
+                        }
+
+                        s.Join(a);
+                    }
+                }
+            }
+
+
+            float duration = s.Duration();
+            s.Play();
+            yield return new WaitForSeconds(duration);
+
             for (int x = 0; x < instances.GetLength(0); x++)
             {
 
@@ -54,6 +95,7 @@ public class LevelManager : MonoBehaviour
                     }
                 }
             }
+            yield return new WaitForSeconds(0.1f);
         }
         foreach (Transform child in emptyContainer)
             Destroy(child.gameObject);
@@ -69,9 +111,9 @@ public class LevelManager : MonoBehaviour
         return math.all(targetPosition == otherPlayerPos);
     }
 
-    public void LoadLevel(string fileName)
+    public IEnumerator LoadLevel(string fileName)
     {
-        ClearLevel();
+        yield return ClearLevel();
         blockInput = true;
         level = LevelUtils.LoadLevelDataFromFile(fileName);
         instances = new GameObject[level.Width, level.Height];
@@ -151,9 +193,10 @@ public class LevelManager : MonoBehaviour
     {
         blockInput = true;
         DOTween.KillAll(true);
-        float offset = 3;
+        float offset = 6f;
+        float initDelay = 0.2f;
         float d = 0.1f;
-        float t = 0.5f;
+        float t = 0.6f;
 
         Sequence s = DOTween.Sequence();
         for(int x = 0; x < level.Width; x++)
@@ -163,7 +206,7 @@ public class LevelManager : MonoBehaviour
             if (!g) continue;
             float target = g.transform.localPosition.y;
             g.transform.localPosition += Vector3.down * offset;
-            float delay = (x+y) * d;
+            float delay = initDelay+ (x+y) * d;
             Sequence a = DOTween.Sequence();
             a.AppendInterval(delay);
             a.Append(g.transform.DOLocalMoveY(target, t));
@@ -189,7 +232,7 @@ public class LevelManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        LoadLevel("lvl" + currentLevel);
+        StartCoroutine( LoadLevel("lvl" + currentLevel));
     }
 
     private void Update()
@@ -208,7 +251,7 @@ public class LevelManager : MonoBehaviour
 
     void CheckWinCondition()
     {
-        if (!p1 || !p2)
+        if (!p1 || !p2 || level==null)
             return;
 
         float R = 0.5f;
