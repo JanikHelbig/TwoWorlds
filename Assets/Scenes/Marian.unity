@@ -4366,8 +4366,8 @@ ParticleSystem:
     lifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.06
-      minScalar: 0.04
+      scalar: 0.04
+      minScalar: 0.02
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4493,30 +4493,30 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     widthOverTrail:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0.1
+      minMaxState: 1
+      scalar: 0.04
       minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
+          value: 0.009216309
+          inSlope: 4.6126976
+          outSlope: 4.6126976
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0.060941823
         - serializedVersion: 3
           time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
+          value: 0
+          inSlope: -2
+          outSlope: -2
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -5602,12 +5602,12 @@ PrefabInstance:
     - target: {fileID: 5079139456131290822, guid: fc4d4424901403c43be80e4f5a7bef51,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.98981
+      value: 9.989811
       objectReference: {fileID: 0}
     - target: {fileID: 5079139456131290822, guid: fc4d4424901403c43be80e4f5a7bef51,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -16.970196
+      value: -16.970203
       objectReference: {fileID: 0}
     - target: {fileID: 5079139456131290822, guid: fc4d4424901403c43be80e4f5a7bef51,
         type: 3}
@@ -5954,6 +5954,11 @@ PrefabInstance:
       propertyPath: vcam
       value: 
       objectReference: {fileID: 1266240006}
+    - target: {fileID: 6466833976394362356, guid: 79207a8320930124783438fab813901e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7507797792070006154, guid: 79207a8320930124783438fab813901e,
         type: 3}
       propertyPath: m_Pivot.x
