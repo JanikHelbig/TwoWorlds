@@ -3,6 +3,7 @@ using DG.Tweening;
 using Unity.Mathematics;
 using System.Collections;
 using System;
+using System.Linq;
 using Utility;
 
 public class LevelManager : MonoBehaviour
@@ -24,25 +25,16 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Transform minPosition;
     [SerializeField] private Transform maxPosition;
 
-    public event Action OnLevelLoaded;
+    public event Action OnLevelLoaded;public event Action OnLevelCompleted;
 
-    private bool _blockInput = true;
-    public bool BlockInput
-    {
-        get => _blockInput;
-        private set => _blockInput = value;
-    }
+    public bool blockInput = true;
 
+    private string customLevel = null;
     private int currentLevel = 1;
     public int CurrentLevel => currentLevel;
 
     public Level level;
     private GameObject[,] instances;
-
-    private void Awake()
-    {
-        RestartLevel();
-    }
 
     private void ClearLevel()
     {
@@ -71,21 +63,21 @@ public class LevelManager : MonoBehaviour
         return math.all(targetPosition == otherPlayerPos);
     }
 
-    private IEnumerator TransitionToLevel(string fileName)
+    private IEnumerator TransitionToLevel(Level lvl)
     {
         if (level != null)
             yield return FadeOutLevelRoutine();
 
-        yield return LoadLevel(fileName);
+        yield return LoadLevel(lvl);
 
-        BlockInput = false;
+        blockInput = false;
     }
 
-    private IEnumerator LoadLevel(string fileName)
+    private IEnumerator LoadLevel(Level lvl)
     {
         ClearLevel();
 
-        level = LevelUtils.LoadLevelDataFromFile(fileName);
+        level = lvl;
         instances = new GameObject[level.Width, level.Height];
         for(int x = -1; x <= level.Width; x++)
         {
@@ -240,7 +232,9 @@ public class LevelManager : MonoBehaviour
     private float[,] CalculateDistancesOfLevel()
     {
         var distances = new float[level.Width, level.Height];
-        float2[] focusPoints = { level.goalDark, level.goalLight };
+        float2[] focusPoints = level.goalsLight.Concat(level.goalsDark)
+            .Select(x => (float2) x)
+            .ToArray();
 
         for (var y = 0; y < level.Height; y++)
         for (var x = 0; x < level.Width; x++)
@@ -276,11 +270,12 @@ public class LevelManager : MonoBehaviour
 
     public void PlayFadeInLevel()
     {
-        BlockInput = true;
+        blockInput = true;
         DOTween.KillAll(true);
-        float offset = 3;
+        float offset = 6f;
+        float initDelay = 0.2f;
         float d = 0.1f;
-        float t = 0.5f;
+        float t = 0.6f;
 
         Sequence s = DOTween.Sequence();
         for(int x = 0; x < level.Width; x++)
@@ -290,7 +285,7 @@ public class LevelManager : MonoBehaviour
             if (!g) continue;
             float target = g.transform.localPosition.y;
             g.transform.localPosition += Vector3.down * offset;
-            float delay = (x+y) * d;
+            float delay = initDelay+ (x+y) * d;
             Sequence a = DOTween.Sequence();
             a.AppendInterval(delay);
             a.Append(g.transform.DOLocalMoveY(target, t));
@@ -309,76 +304,55 @@ public class LevelManager : MonoBehaviour
         }
         s.OnComplete(() =>
         {
-            BlockInput = false;
+            blockInput = false;
         });
         s.Play();
     }
 
     public void RestartLevel()
     {
-        BlockInput = true;
-        StartCoroutine(TransitionToLevel("lvl" + currentLevel));
+        if(customLevel != null)
+        {
+            var lines = customLevel.Split("\n");
+            Level lvl = LevelUtils.LoadLevelFromText(lines);
+            StartCoroutine(TransitionToLevel(lvl));
+
+        }
+        else
+        {
+            Level lvl = LevelUtils.LoadLevelDataFromFile("lvl" + currentLevel);
+            StartCoroutine(TransitionToLevel(lvl));
+        }
+    }
+
+    public void PlayCustomLevel(string customLevel)
+    {
+        this.customLevel = customLevel;
+        RestartLevel();
+    }
+
+    public void StartGame()
+    {
+        customLevel = null;
+        RestartLevel();
     }
 
     private void Update()
     {
-        if (BlockInput)
+        if (blockInput)
             return;
 
         if (Input.GetKeyDown(KeyCode.Space))
             level?.ToggleRaisedWorld();
 
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            currentLevel = 1;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            currentLevel = 2;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            currentLevel = 3;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            currentLevel = 4;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            currentLevel =5;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            currentLevel = 6;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            currentLevel = 7;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            currentLevel = 8;
-            RestartLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            currentLevel = 9;
-            RestartLevel();
-        }
-
-
         if (Input.GetKeyDown(KeyCode.R))
             RestartLevel();
-        
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            FindObjectOfType<Menu>().OpenMenu();
+        }
+
         CheckWinCondition();
     }
 
@@ -388,30 +362,55 @@ public class LevelManager : MonoBehaviour
             return;
 
         float R = 0.5f;
-        if (Mathf.Abs(p1.transform.position.x - level.goalLight.x) < R &&
-            Mathf.Abs(p1.transform.position.z - level.goalLight.y) < R &&
-            Mathf.Abs(p2.transform.position.x - level.goalDark.x) < R &&
-            Mathf.Abs(p2.transform.position.z - level.goalDark.y) < R)
+        bool isP1OnGoal = false;
+        bool isP2OnGoal = false;
+
+        foreach(int2 goalPos in level.goalsLight)
         {
-            BlockInput = true;
-            StartCoroutine(DelayedStartNextLevel(0.7f));
+            if (Mathf.Abs(p1.transform.position.x - goalPos.x) < R &&
+                Mathf.Abs(p1.transform.position.z - goalPos.y) < R)
+                isP1OnGoal = true;
+        }
+        foreach (int2 goalPos in level.goalsDark)
+        {
+            if (Mathf.Abs(p2.transform.position.x - goalPos.x) < R &&
+                Mathf.Abs(p2.transform.position.z - goalPos.y) < R)
+                isP2OnGoal = true;
+        }
+
+        if (isP1OnGoal && isP2OnGoal)
+        {
+            blockInput = true;
+            OnLevelCompleted?.Invoke();
+            StartCoroutine(DelayedStartNextLevel(1.3f));
         }
     }
 
     private IEnumerator DelayedStartNextLevel(float delay)
     {
+        UberAudio.AudioManager.Instance.Play("Victory");
         yield return new WaitForSeconds(delay);
-        currentLevel++;
+        if(customLevel == null)
+            currentLevel++;
         RestartLevel();
     }
 
     void OnRaisedWorldChanged(World raisedWorld)
     {
+        blockInput = true;
         float duration = 0.2f;
         Sequence s = DOTween.Sequence();
-        s.Join(darkContainer.transform.DOLocalMoveY(raisedWorld == World.Dark ? 1 : 0, duration));
+        s.AppendCallback(()=> {
+            GameObject p = raisedWorld == World.Dark ? p1 : p2;
+            p.GetComponentInChildren<Animator>().SetTrigger("Jump");
+        });
+        s.AppendInterval(0.6f);
+        s.Append(darkContainer.transform.DOLocalMoveY(raisedWorld == World.Dark ? 1 : 0, duration));
         s.Join(lightContainer.transform.DOLocalMoveY(raisedWorld == World.Light ? 1 : 0, duration));
+        s.AppendCallback(() => { blockInput = false; });
         s.Play();
+
+        UberAudio.AudioManager.Instance.Play("SwitchWorld");
     }
 
     void OnTilesSwitched(int2 p1, int2 p2 )
@@ -426,11 +425,14 @@ public class LevelManager : MonoBehaviour
         temp.name = "Animation Placeholder";
 
         Sequence s = DOTween.Sequence();
+        g1.transform.localScale = new Vector3(1.01f, 1, 1.01f);
         s.Append(g1.transform.DOLocalMove(new Vector3(p2.x, 0, p2.y), 0.3f));
         s.OnComplete(() => {
             g2.transform.localPosition = new Vector3(p1.x, 0, p1.y);
+            g1.transform.localScale = Vector3.one;
             Destroy(temp);
         });
         s.Play();
+        UberAudio.AudioManager.Instance.Play("MoveTile");
     }
 }

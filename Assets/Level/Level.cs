@@ -1,14 +1,15 @@
 using System;
 using UnityEngine;
 using Unity.Mathematics;
+using System.Collections.Generic;
 
 public class Level
 {
     public Tile[,] tiles;
     public int2 spawnDark;
     public int2 spawnLight;
-    public int2 goalDark;
-    public int2 goalLight;
+    public List<int2> goalsDark = new List<int2>();
+    public List<int2> goalsLight = new List<int2>();
     public bool activeWorld;
 
     private World raisedWorld = World.Dark;

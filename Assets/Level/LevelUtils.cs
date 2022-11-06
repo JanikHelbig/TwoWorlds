@@ -7,11 +7,25 @@ public static class LevelUtils
     public static Level LoadLevelDataFromFile(string fileName)
     {
         string[] lines = new string[0];
+
+#if UNITY_WEBGL
+        var f = Resources.Load<TextAsset>(Path.Combine("Levels", fileName));
+        lines = f.text.Split("\r\n");
+#else
         string path = Path.Combine(Application.streamingAssetsPath, "Levels", fileName + ".txt");
         if (File.Exists(path))
             lines = File.ReadAllLines(path);
+#endif
+
+        return LoadLevelFromText(lines);
+    }
+
+
+    public static Level LoadLevelFromText(string[] lines)
+    {
+
         int width = 0;
-        foreach(string line in lines)
+        foreach (string line in lines)
         {
             if (line.Length > width)
                 width = line.Length;
@@ -23,8 +37,8 @@ public static class LevelUtils
 
         for (int y = 0; y < height; y++)
         {
-            string line = lines[height - y-1];
-            for (int x = 0; x<width;x++)
+            string line = lines[height - y - 1];
+            for (int x = 0; x < width; x++)
             {
                 lvl.tiles[x, y] = new Tile();
                 Tile.Type type = Tile.Type.Empty;
@@ -49,7 +63,7 @@ public static class LevelUtils
                     case 'X':
                         type = Tile.Type.Goal;
                         world = World.Dark;
-                        lvl.goalDark = new int2(x, y);
+                        lvl.goalsDark.Add(new int2(x, y));
                         break;
                     case '.':
                         type = Tile.Type.Block;
@@ -63,7 +77,7 @@ public static class LevelUtils
                     case 'I':
                         type = Tile.Type.Goal;
                         world = World.Light;
-                        lvl.goalLight = new int2(x, y);
+                        lvl.goalsLight.Add(new int2(x, y));
                         break;
                 }
                 lvl.tiles[x, y].type = type;
