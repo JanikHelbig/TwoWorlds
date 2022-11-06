@@ -10,7 +10,8 @@ public static class LevelUtils
 
 #if UNITY_WEBGL
         var f = Resources.Load<TextAsset>(Path.Combine("Levels", fileName));
-        lines = f.text.Split("\r\n");
+        if(f != null && f.text != null)
+            lines = f.text.Split("\r\n");
 #else
         string path = Path.Combine(Application.streamingAssetsPath, "Levels", fileName + ".txt");
         if (File.Exists(path))
