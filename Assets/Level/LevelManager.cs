@@ -32,6 +32,7 @@ public class LevelManager : MonoBehaviour
     private string customLevel = null;
     private int currentLevel = 1;
     public int CurrentLevel => currentLevel;
+    public bool IsCustomLevel => customLevel != null;
 
     public Level level;
     private GameObject[,] instances;
