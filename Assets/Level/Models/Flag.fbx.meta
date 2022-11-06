@@ -1,34 +1,12 @@
 fileFormatVersion: 2
-guid: 999f8b78bf53edd4c82069c870a3eb56
+guid: 45b3c82c4bd1d72478ce59a3a9799935
 ModelImporter:
   serializedVersion: 21300
-  internalIDToNameTable: []
-  externalObjects:
+  internalIDToNameTable:
   - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Wood_black_02_COL
-    second: {fileID: 2800000, guid: add6ba63d40cb874f9c7ad3947e94d96, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Wood_block_GLOSS
-    second: {fileID: 2800000, guid: 3fa8616943d845246bdfde1ce77535d9, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Wood_block_NORM
-    second: {fileID: 2800000, guid: 7f67e136c6ce2394093f70764b2ed989, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Wood_brown_COL
-    second: {fileID: 2800000, guid: 314db4bc46110d84380336cd9c978317, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Wood_white_02_COL
-    second: {fileID: 2800000, guid: 96712af6607ff0849acdee94c4721887, type: 3}
+      74: -1498010087492872569
+    second: CINEMA_4D_Main
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -56,7 +34,36 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: CINEMA_4D_Main
+      takeName: CINEMA_4D_Main
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 25
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []

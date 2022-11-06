@@ -1,11 +1,51 @@
 fileFormatVersion: 2
-guid: 447968b8109cfdc47bdc19245dd48889
+guid: 999f8b78bf53edd4c82069c870a3eb56
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: block_black
+    second: {fileID: 2100000, guid: 028e65e804fe2304cb28ff912d8a59a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: block_black.1
+    second: {fileID: 2100000, guid: 9a79358f66d8b134d9675542ae80bfcd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: block_white
+    second: {fileID: 2100000, guid: 0b05f1fc3bfd20647a264b2d23e73b53, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Wood_black_02_COL
+    second: {fileID: 2800000, guid: 5f4fdf70bab5b3d439ff3cc858f39470, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Wood_block_GLOSS
+    second: {fileID: 2800000, guid: b3202ec204b232b43bc7c0eda04ddea6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Wood_block_NORM
+    second: {fileID: 2800000, guid: 29a27590a3c06c24086deb6b4a284c81, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Wood_brown_COL
+    second: {fileID: 2800000, guid: 3696d516d6ea1a649919e7224638c68d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Wood_white_02_COL
+    second: {fileID: 2800000, guid: fdfa4329cdf570140b405416dc5b8610, type: 3}
   materials:
-    materialImportMode: 0
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1
