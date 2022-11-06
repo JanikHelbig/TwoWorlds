@@ -16,6 +16,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Transform lightContainer;
     [SerializeField] private Transform darkContainer;
     [SerializeField] private Transform emptyContainer;
+    [SerializeField] private float hideOffset = -6f;
 
     [Header("Player")]
     [SerializeField] private GameObject p1;
@@ -154,8 +155,6 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator FadeInLevelRoutine()
     {
-        const float hideOffset = -5f;
-
         float[,] distances = CalculateDistancesOfLevel();
         var p1Pos = (int2) math.round(((float3) p1.transform.position).xz);
         var p2Pos = (int2) math.round(((float3) p2.transform.position).xz);
@@ -207,8 +206,6 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator FadeOutLevelRoutine()
     {
-        const float hideOffset = -5f;
-
         float[,] distances = CalculateDistancesOfLevel();
         var p1Pos = (int2) math.round(((float3) p1.transform.position).xz);
         var p2Pos = (int2) math.round(((float3) p2.transform.position).xz);
