@@ -300,10 +300,17 @@ public class LevelManager : MonoBehaviour
 
     void OnRaisedWorldChanged(World raisedWorld)
     {
+        blockInput = true;
         float duration = 0.2f;
         Sequence s = DOTween.Sequence();
-        s.Join(darkContainer.transform.DOLocalMoveY(raisedWorld == World.Dark ? 1 : 0, duration));
+        s.AppendCallback(()=> {
+            GameObject p = raisedWorld == World.Dark ? p1 : p2;
+            p.GetComponentInChildren<Animator>().SetTrigger("Jump");
+        });
+        s.AppendInterval(0.6f);
+        s.Append(darkContainer.transform.DOLocalMoveY(raisedWorld == World.Dark ? 1 : 0, duration));
         s.Join(lightContainer.transform.DOLocalMoveY(raisedWorld == World.Light ? 1 : 0, duration));
+        s.AppendCallback(() => { blockInput = false; });
         s.Play();
 
         UberAudio.AudioManager.Instance.Play("SwitchWorld");
