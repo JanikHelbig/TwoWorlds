@@ -6,6 +6,8 @@ using TMPro;
 
 public class Menu : MonoBehaviour
 {
+    [SerializeField] private Cinemachine.CinemachineVirtualCamera vcam;
+
     [Header("Main")]
     [SerializeField] private GameObject mainContainer;
     [SerializeField] private Button startGame;
@@ -29,6 +31,7 @@ public class Menu : MonoBehaviour
         startGame.onClick.AddListener(() => {
             mainContainer.SetActive(false);
             ingameContainer.SetActive(true);
+            vcam.Priority = 0;
             _lvlManager.StartGame();
         });
         lvlEditor.onClick.AddListener(() => {
@@ -38,6 +41,7 @@ public class Menu : MonoBehaviour
 
         startCustomGame.onClick.AddListener(()=> {
             editorContainer.SetActive(false);
+            vcam.Priority = 0;
             _lvlManager.PlayCustomLevel(editor.text);
         });
         exitLevelEditor.onClick.AddListener(() => {
@@ -53,5 +57,6 @@ public class Menu : MonoBehaviour
         mainContainer.SetActive(true);
         editorContainer.SetActive(false);
         ingameContainer.SetActive(false);
+        vcam.Priority = 20;
     }
 }
