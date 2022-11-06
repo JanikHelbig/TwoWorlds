@@ -27,13 +27,14 @@ public class TutorialDisplay : MonoBehaviour
         };
 
         manager.OnLevelLoaded += ()=> {
-            if (souce && manager.CurrentLevel == targetLevel && !manager.IsCustomLevel)
+
+            if (manager.CurrentLevel == targetLevel && !manager.IsCustomLevel)
             {
                 visible = true;
                 foreach (var s in sprites)
                     s.DOFade(1, 0.3f).Play();
 
-                if (!souce.isPlaying)
+                if (souce && !souce.isPlaying)
                     souce.Play();
             }
         };
