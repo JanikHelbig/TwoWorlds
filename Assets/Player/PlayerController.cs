@@ -51,7 +51,7 @@ namespace Character
             var d = DirectionUtility.From(moveInput);
             int2 nextPos = currentPos.OffsetPosition(d);
 
-            if (levelManager.IsOccuipiedByOtherPlayer(gameObject, nextPos))
+            if (levelManager.IsOccupiedByOtherPlayer(gameObject, nextPos))
                 return;
 
             switch(d)

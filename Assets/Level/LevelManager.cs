@@ -56,7 +56,7 @@ public class LevelManager : MonoBehaviour
             Destroy(child.gameObject);
     }
 
-    public bool IsOccuipiedByOtherPlayer(GameObject player, int2 targetPosition)
+    public bool IsOccupiedByOtherPlayer(GameObject player, int2 targetPosition)
     {
         GameObject p = p1 == player ? p2 : p1;
         float3 pos = p.transform.position;
@@ -157,6 +157,8 @@ public class LevelManager : MonoBehaviour
         const float hideOffset = -5f;
 
         float[,] distances = CalculateDistancesOfLevel();
+        var p1Pos = (int2) math.round(((float3) p1.transform.position).xz);
+        var p2Pos = (int2) math.round(((float3) p2.transform.position).xz);
 
         for (var y = 0; y < level.Height; y++)
         for (var x = 0; x < level.Width; x++)
@@ -187,6 +189,15 @@ public class LevelManager : MonoBehaviour
                 float yInstance = math.lerp(hideOffset, 0, tInstanceEased);
 
                 instance.transform.localPosition = instance.transform.localPosition.With(y: yInstance);
+
+                GameObject playerObject = null;
+                if (math.all(p1Pos == new int2(x, y)))
+                    playerObject = p1;
+                if (math.all(p2Pos == new int2(x, y)))
+                    playerObject = p2;
+
+                if (playerObject != null)
+                    playerObject.transform.localPosition = playerObject.transform.localPosition.With(y: yInstance);
             }
 
             t += Time.deltaTime;
@@ -199,6 +210,8 @@ public class LevelManager : MonoBehaviour
         const float hideOffset = -5f;
 
         float[,] distances = CalculateDistancesOfLevel();
+        var p1Pos = (int2) math.round(((float3) p1.transform.position).xz);
+        var p2Pos = (int2) math.round(((float3) p2.transform.position).xz);
 
         var t = 0f;
         var tMin = 0f;
@@ -222,6 +235,15 @@ public class LevelManager : MonoBehaviour
                 float yInstance = math.lerp(0, hideOffset, tInstanceEased);
 
                 instance.transform.localPosition = instance.transform.localPosition.With(y: yInstance);
+
+                GameObject playerObject = null;
+                if (math.all(p1Pos == new int2(x, y)))
+                    playerObject = p1;
+                if (math.all(p2Pos == new int2(x, y)))
+                    playerObject = p2;
+
+                if (playerObject != null)
+                    playerObject.transform.localPosition = playerObject.transform.localPosition.With(y: yInstance);
             }
 
             t += Time.deltaTime;
