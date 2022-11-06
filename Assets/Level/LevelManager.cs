@@ -260,5 +260,6 @@ public class LevelManager : MonoBehaviour
             Destroy(temp);
         });
         s.Play();
+        UberAudio.AudioManager.Instance.Play("MoveTile");
     }
 }

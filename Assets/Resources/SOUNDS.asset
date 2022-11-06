@@ -43,6 +43,66 @@ MonoBehaviour:
       m_RotationOrder: 4
     SpatialBlend: 0
     ReverbZoneMix: 1
+  - EventName: SwitchWorld
+    RandomWeight: 1
+    Volume: 1
+    AudioClip: {fileID: 8300000, guid: 77b746c99aa039f4c89651be7a0dbc89, type: 3}
+    Priority: 128
+    GroupID: 0
+    Loop: 0
+    StopWhenSourceDies: 0
+    KeepLoopingWhenSourceDies: 0
+    DoNotTrackSourceMovement: 0
+    BypassEffects: 0
+    BypassListenerEffects: 0
+    BypassReverbZones: 0
+    DopplerLevel: 1
+    MaxDistance: 500
+    MinDistance: 1
+    Mute: 0
+    OutputAudioMixerGroup: {fileID: 0}
+    PanStereo: 0
+    Pitch: 1.2
+    Spatialize: 0
+    RolloffMode: 0
+    CustomRolloffCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    SpatialBlend: 0
+    ReverbZoneMix: 1
+  - EventName: SwitchWorld
+    RandomWeight: 1
+    Volume: 1
+    AudioClip: {fileID: 8300000, guid: 77b746c99aa039f4c89651be7a0dbc89, type: 3}
+    Priority: 128
+    GroupID: 0
+    Loop: 0
+    StopWhenSourceDies: 0
+    KeepLoopingWhenSourceDies: 0
+    DoNotTrackSourceMovement: 0
+    BypassEffects: 0
+    BypassListenerEffects: 0
+    BypassReverbZones: 0
+    DopplerLevel: 1
+    MaxDistance: 500
+    MinDistance: 1
+    Mute: 0
+    OutputAudioMixerGroup: {fileID: 0}
+    PanStereo: 0
+    Pitch: 1.5
+    Spatialize: 0
+    RolloffMode: 0
+    CustomRolloffCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    SpatialBlend: 0
+    ReverbZoneMix: 1
   - EventName: Victory
     RandomWeight: 1
     Volume: 1
@@ -63,6 +123,96 @@ MonoBehaviour:
     OutputAudioMixerGroup: {fileID: 0}
     PanStereo: 0
     Pitch: 1
+    Spatialize: 0
+    RolloffMode: 0
+    CustomRolloffCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    SpatialBlend: 0
+    ReverbZoneMix: 1
+  - EventName: MoveTile
+    RandomWeight: 1
+    Volume: 0.1
+    AudioClip: {fileID: 8300000, guid: a8457e89d626bf8409f791a456879a89, type: 3}
+    Priority: 128
+    GroupID: 0
+    Loop: 0
+    StopWhenSourceDies: 0
+    KeepLoopingWhenSourceDies: 0
+    DoNotTrackSourceMovement: 0
+    BypassEffects: 0
+    BypassListenerEffects: 0
+    BypassReverbZones: 0
+    DopplerLevel: 1
+    MaxDistance: 500
+    MinDistance: 1
+    Mute: 0
+    OutputAudioMixerGroup: {fileID: 0}
+    PanStereo: 0
+    Pitch: 1.5
+    Spatialize: 0
+    RolloffMode: 0
+    CustomRolloffCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    SpatialBlend: 0
+    ReverbZoneMix: 1
+  - EventName: MoveTile
+    RandomWeight: 1
+    Volume: 0.1
+    AudioClip: {fileID: 8300000, guid: a8457e89d626bf8409f791a456879a89, type: 3}
+    Priority: 128
+    GroupID: 0
+    Loop: 0
+    StopWhenSourceDies: 0
+    KeepLoopingWhenSourceDies: 0
+    DoNotTrackSourceMovement: 0
+    BypassEffects: 0
+    BypassListenerEffects: 0
+    BypassReverbZones: 0
+    DopplerLevel: 1
+    MaxDistance: 500
+    MinDistance: 1
+    Mute: 0
+    OutputAudioMixerGroup: {fileID: 0}
+    PanStereo: 0
+    Pitch: 1.2
+    Spatialize: 0
+    RolloffMode: 0
+    CustomRolloffCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    SpatialBlend: 0
+    ReverbZoneMix: 1
+  - EventName: MoveTile
+    RandomWeight: 1
+    Volume: 0.1
+    AudioClip: {fileID: 8300000, guid: a8457e89d626bf8409f791a456879a89, type: 3}
+    Priority: 128
+    GroupID: 0
+    Loop: 0
+    StopWhenSourceDies: 0
+    KeepLoopingWhenSourceDies: 0
+    DoNotTrackSourceMovement: 0
+    BypassEffects: 0
+    BypassListenerEffects: 0
+    BypassReverbZones: 0
+    DopplerLevel: 1
+    MaxDistance: 500
+    MinDistance: 1
+    Mute: 0
+    OutputAudioMixerGroup: {fileID: 0}
+    PanStereo: 0
+    Pitch: 1.1
     Spatialize: 0
     RolloffMode: 0
     CustomRolloffCurve:
