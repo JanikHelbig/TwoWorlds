@@ -337,6 +337,11 @@ public class LevelManager : MonoBehaviour
         {
             var lines = customLevel.Split("\n");
             Level lvl = LevelUtils.LoadLevelFromText(lines);
+            if(lvl.Width == 0 || lvl.Height == 0)
+            {
+                FindObjectOfType<Menu>().OpenMenu();
+                return;
+            }
             blockInput = true;
             StartCoroutine(TransitionToLevel(lvl));
         }
