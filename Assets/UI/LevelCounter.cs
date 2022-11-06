@@ -16,6 +16,6 @@ public class LevelCounter : MonoBehaviour
     // Update is called once per frame
     void UpdateDisplay()
     {
-        label.text = $"Level {manager.CurrentLevel}";
+        label.text = $"{manager.CurrentLevel}/12";
     }
 }
