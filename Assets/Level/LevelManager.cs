@@ -244,14 +244,12 @@ public class LevelManager : MonoBehaviour
 
     public void PlayCustomLevel(string customLevel)
     {
-        currentLevel = 1;
         this.customLevel = customLevel;
         RestartLevel();
     }
 
     public void StartGame()
     {
-        currentLevel = 1;
         customLevel = null;
         RestartLevel();
     }

@@ -17,6 +17,8 @@ public class Menu : MonoBehaviour
     [SerializeField] private Button exitLevelEditor;
     [SerializeField] private TMP_InputField editor;
 
+    [Header("Ingame")]
+    [SerializeField] private GameObject ingameContainer;
 
     LevelManager _lvlManager;
 
@@ -26,6 +28,7 @@ public class Menu : MonoBehaviour
         _lvlManager = FindObjectOfType<LevelManager>();
         startGame.onClick.AddListener(() => {
             mainContainer.SetActive(false);
+            ingameContainer.SetActive(true);
             _lvlManager.StartGame();
         });
         lvlEditor.onClick.AddListener(() => {
@@ -49,5 +52,6 @@ public class Menu : MonoBehaviour
 
         mainContainer.SetActive(true);
         editorContainer.SetActive(false);
+        ingameContainer.SetActive(false);
     }
 }
