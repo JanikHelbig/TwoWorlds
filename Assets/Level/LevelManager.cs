@@ -28,17 +28,13 @@ public class LevelManager : MonoBehaviour
 
     public bool blockInput = true;
 
+    private string customLevel = null;
     private int currentLevel = 1;
     public int CurrentLevel => currentLevel;
 
     public Level level;
     private GameObject[,] instances;
-
-    private void Awake()
-    {
-        RestartLevel();
-    }
-
+    
     private IEnumerator ClearLevel()
     {
         if (instances != null)
@@ -111,11 +107,11 @@ public class LevelManager : MonoBehaviour
         return math.all(targetPosition == otherPlayerPos);
     }
 
-    public IEnumerator LoadLevel(string fileName)
+    public IEnumerator LoadLevel(Level lvl)
     {
         yield return ClearLevel();
         blockInput = true;
-        level = LevelUtils.LoadLevelDataFromFile(fileName);
+        level = lvl;
         instances = new GameObject[level.Width, level.Height];
         for(int x = -1; x <= level.Width; x++)
         {
@@ -232,7 +228,32 @@ public class LevelManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        StartCoroutine( LoadLevel("lvl" + currentLevel));
+        if(customLevel != null)
+        {
+            var lines = customLevel.Split("\n");
+            Level level = LevelUtils.LoadLevelFromText(lines);
+            StartCoroutine(LoadLevel(level));
+
+        }
+        else
+        {
+            Level level = LevelUtils.LoadLevelDataFromFile("lvl" + currentLevel);
+            StartCoroutine(LoadLevel(level));
+        }
+    }
+
+    public void PlayCustomLevel(string customLevel)
+    {
+        currentLevel = 1;
+        this.customLevel = customLevel;
+        RestartLevel();
+    }
+
+    public void StartGame()
+    {
+        currentLevel = 1;
+        customLevel = null;
+        RestartLevel();
     }
 
     private void Update()
@@ -245,7 +266,12 @@ public class LevelManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
             RestartLevel();
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameObject.FindObjectOfType<Menu>().OpenMenu();
+            StartCoroutine(ClearLevel());
+        }
+
         CheckWinCondition();
     }
 

@@ -16,8 +16,16 @@ public static class LevelUtils
         if (File.Exists(path))
             lines = File.ReadAllLines(path);
 #endif
+
+        return LoadLevelFromText(lines);
+    }
+
+
+    public static Level LoadLevelFromText(string[] lines)
+    {
+
         int width = 0;
-        foreach(string line in lines)
+        foreach (string line in lines)
         {
             if (line.Length > width)
                 width = line.Length;
@@ -29,8 +37,8 @@ public static class LevelUtils
 
         for (int y = 0; y < height; y++)
         {
-            string line = lines[height - y-1];
-            for (int x = 0; x<width;x++)
+            string line = lines[height - y - 1];
+            for (int x = 0; x < width; x++)
             {
                 lvl.tiles[x, y] = new Tile();
                 Tile.Type type = Tile.Type.Empty;
