@@ -3,6 +3,7 @@ using DG.Tweening;
 using Unity.Mathematics;
 using System.Collections;
 using System;
+using Utility;
 
 public class LevelManager : MonoBehaviour
 {
@@ -22,9 +23,15 @@ public class LevelManager : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private Transform minPosition;
     [SerializeField] private Transform maxPosition;
-    public event Action OnLevelLoaded; 
 
-    public bool blockInput = false;
+    public event Action OnLevelLoaded;
+
+    private bool _blockInput = true;
+    public bool BlockInput
+    {
+        get => _blockInput;
+        private set => _blockInput = value;
+    }
 
     private int currentLevel = 1;
     public int CurrentLevel => currentLevel;
@@ -43,7 +50,6 @@ public class LevelManager : MonoBehaviour
         {
             for (int x = 0; x < instances.GetLength(0); x++)
             {
-
                 for (int y = 0; y < instances.GetLength(1); y++)
                 {
                     if (instances[x, y] != null)
@@ -65,10 +71,20 @@ public class LevelManager : MonoBehaviour
         return math.all(targetPosition == otherPlayerPos);
     }
 
-    public void LoadLevel(string fileName)
+    private IEnumerator TransitionToLevel(string fileName)
+    {
+        if (level != null)
+            yield return FadeOutLevelRoutine();
+
+        yield return LoadLevel(fileName);
+
+        BlockInput = false;
+    }
+
+    private IEnumerator LoadLevel(string fileName)
     {
         ClearLevel();
-        blockInput = true;
+
         level = LevelUtils.LoadLevelDataFromFile(fileName);
         instances = new GameObject[level.Width, level.Height];
         for(int x = -1; x <= level.Width; x++)
@@ -139,13 +155,128 @@ public class LevelManager : MonoBehaviour
 
         level.OnRaisedWorldChanged += OnRaisedWorldChanged;
         level.OnTileSwitched += OnTilesSwitched;
-        PlayFadeInLevel();
+        // PlayFadeInLevel();
+        yield return FadeInLevelRoutine();
         OnLevelLoaded?.Invoke();
+    }
+
+    private IEnumerator FadeInLevelRoutine()
+    {
+        const float hideOffset = -5f;
+
+        float[,] distances = CalculateDistancesOfLevel();
+
+        for (var y = 0; y < level.Height; y++)
+        for (var x = 0; x < level.Width; x++)
+        {
+            if (instances[x, y] is { } instance)
+                instance.transform.localPosition = instance.transform.localPosition.With(y: hideOffset);
+        }
+
+        var t = 0f;
+        var tMin = 0f;
+        while (tMin < 1f)
+        {
+            tMin = float.MaxValue;
+
+            for (var y = 0; y < level.Height; y++)
+            for (var x = 0; x < level.Width; x++)
+            {
+                GameObject instance = instances[x, y];
+
+                if (instance == null)
+                    continue;
+
+                float distance = distances[x, y];
+                float tInstance = math.clamp(t * 2 - distance * 0.25f, 0, 1);
+                tMin = math.min(tMin, tInstance);
+
+                float tInstanceEased = EaseOutBack(tInstance);
+                float yInstance = math.lerp(hideOffset, 0, tInstanceEased);
+
+                instance.transform.localPosition = instance.transform.localPosition.With(y: yInstance);
+            }
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private IEnumerator FadeOutLevelRoutine()
+    {
+        const float hideOffset = -5f;
+
+        float[,] distances = CalculateDistancesOfLevel();
+
+        var t = 0f;
+        var tMin = 0f;
+        while (tMin < 1f)
+        {
+            tMin = float.MaxValue;
+
+            for (var y = 0; y < level.Height; y++)
+            for (var x = 0; x < level.Width; x++)
+            {
+                GameObject instance = instances[x, y];
+
+                if (instance == null)
+                    continue;
+
+                float distance = distances[x, y];
+                float tInstance = math.clamp(t * 2 - distance * 0.25f, 0, 1);
+                tMin = math.min(tMin, tInstance);
+
+                float tInstanceEased = EaseInQuad(tInstance);
+                float yInstance = math.lerp(0, hideOffset, tInstanceEased);
+
+                instance.transform.localPosition = instance.transform.localPosition.With(y: yInstance);
+            }
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private float[,] CalculateDistancesOfLevel()
+    {
+        var distances = new float[level.Width, level.Height];
+        float2[] focusPoints = { level.goalDark, level.goalLight };
+
+        for (var y = 0; y < level.Height; y++)
+        for (var x = 0; x < level.Width; x++)
+        {
+            var distance = float.MaxValue;
+            foreach (float2 focusPoint in focusPoints)
+            {
+                float distanceToFocusPoint = math.distance(new float2(x, y), focusPoint);
+                distance = SmoothMin(distance, distanceToFocusPoint, 1);
+            }
+            distances[x, y] = distance;
+        }
+
+        return distances;
+    }
+
+    private static float SmoothMin(float a, float b, float k)
+    {
+        float h = math.max(k - math.abs(a - b), 0) / k;
+        return math.min(a, b) - h * h * k * (1.0f / 4.0f);
+    }
+
+    private float EaseInQuad(float x) {
+        return x * x;
+    }
+
+    private static float EaseOutBack(float x) {
+        const float c1 = 1.70158f;
+        const float c3 = c1 + 1;
+
+        return 1 + c3 * math.pow(x - 1, 3) + c1 * math.pow(x - 1, 2);
     }
 
     public void PlayFadeInLevel()
     {
-        blockInput = true;
+        BlockInput = true;
         DOTween.KillAll(true);
         float offset = 3;
         float d = 0.1f;
@@ -178,19 +309,20 @@ public class LevelManager : MonoBehaviour
         }
         s.OnComplete(() =>
         {
-            blockInput = false;
+            BlockInput = false;
         });
         s.Play();
     }
 
     public void RestartLevel()
     {
-        LoadLevel("lvl" + currentLevel);
+        BlockInput = true;
+        StartCoroutine(TransitionToLevel("lvl" + currentLevel));
     }
 
     private void Update()
     {
-        if (blockInput)
+        if (BlockInput)
             return;
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -252,7 +384,7 @@ public class LevelManager : MonoBehaviour
 
     void CheckWinCondition()
     {
-        if (!p1 || !p2)
+        if (!p1 || !p2 || level == null)
             return;
 
         float R = 0.5f;
@@ -261,7 +393,7 @@ public class LevelManager : MonoBehaviour
             Mathf.Abs(p2.transform.position.x - level.goalDark.x) < R &&
             Mathf.Abs(p2.transform.position.z - level.goalDark.y) < R)
         {
-            blockInput = true;
+            BlockInput = true;
             StartCoroutine(DelayedStartNextLevel(0.7f));
         }
     }

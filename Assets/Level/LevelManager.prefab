@@ -184,6 +184,7 @@ MonoBehaviour:
   p2: {fileID: 0}
   minPosition: {fileID: 115911155}
   maxPosition: {fileID: 1252553738}
+  blockInput: 0
 --- !u!1 &1304127829492536948
 GameObject:
   m_ObjectHideFlags: 0
