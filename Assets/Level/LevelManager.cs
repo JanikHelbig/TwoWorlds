@@ -254,9 +254,11 @@ public class LevelManager : MonoBehaviour
         temp.name = "Animation Placeholder";
 
         Sequence s = DOTween.Sequence();
+        g1.transform.localScale = new Vector3(1.01f, 1, 1.01f);
         s.Append(g1.transform.DOLocalMove(new Vector3(p2.x, 0, p2.y), 0.3f));
         s.OnComplete(() => {
             g2.transform.localPosition = new Vector3(p1.x, 0, p1.y);
+            g1.transform.localScale = Vector3.one;
             Destroy(temp);
         });
         s.Play();
